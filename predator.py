@@ -2,7 +2,7 @@ from prey import Prey
 
 
 class Predator(Prey):
-    """Подкласс Prey, хищник, может перемещаться, размножаться, есть добычу"""
+    """Subclass Prey, predator, can move, breed, eat prey"""
 
     def __init__(self, settings):
         super().__init__(settings)

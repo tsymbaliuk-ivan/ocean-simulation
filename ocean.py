@@ -1,9 +1,8 @@
 from random import randint
-# from cell import Cell
-# from obstacle import Obstacle
+
 
 class Ocean:
-    """Ocean - двумерный массив ячеек. В океане есть добыча, хищники, преграды и пустые ячейки"""
+    """Ocean is a 2D cell array. The ocean has prey, predators, obstacles and empty cell"""
     cells = []
 
     def __init__(self, settings):
@@ -12,7 +11,6 @@ class Ocean:
         self.prey_number = settings.prey_number
         self.predators_number = settings.predators_number
         self.obstacles_number = settings.obstacles_number
-
 
     def get_num_prey(self):
         """return number of prey"""
@@ -42,7 +40,6 @@ class Ocean:
         for ocean_element in ocean_elements:
             self.add_element(ocean_element, cell)
 
-
     def add_element(self, ocean_element, cell):
         """Будем заполнять cells"""
         i = 0
@@ -65,8 +62,6 @@ class Ocean:
         """отображает максимальную ограниченную область океана (горизонтальная граница)"""
         pass
 
-
-
     def display_cells(self):
         """пересчитывает и выводит массив cells"""
 
@@ -74,7 +69,6 @@ class Ocean:
             for y in range(len(self.cells[x])):
                 print(f'{self.cells[x][y]}\t', end='')
             print()
-
 
     def display_stats(self):
         """Обновляет отображаемый номер итерации, количество преград, хищников и добычи"""

@@ -6,8 +6,10 @@ from obstacle import Obstacle
 from prey import Prey
 from predator import Predator
 
-cell = Cell()
+
 ocean_settings = Settings()
+
+cell = Cell(ocean_settings)
 predator = Predator(ocean_settings)
 obstacle = Obstacle(ocean_settings)
 prey = Prey(ocean_settings)

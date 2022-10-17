@@ -1,14 +1,12 @@
 from coordinate import Coordinate
 
-class Cell:
-    """Cell - суперкласc для всех видов ячеек, которые есть в океане"""
-    # default_image = '-'
-    # offset = coordinate
 
-    def __init__(self): #, ocean, offset, image): #, coordinate):#, offset, image):
+class Cell:
+    """Cell - superclass for all kinds of cells that are in the ocean"""
+
+    def __init__(self, settings):
         # self.offset = offset
-        self.image = '-'
-        # self.default_image = '-'
+        self.image = settings.image_for_cell
         # self.x = coordinate.x
         # self.y = coordinate.y
 
