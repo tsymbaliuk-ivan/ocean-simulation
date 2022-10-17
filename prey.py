@@ -9,6 +9,8 @@ class Prey(Cell):
         super().__init__()
         self.image = settings.image_for_prey
         self.time_to_reproduce = 6
+        self.number_of_element = settings.prey_number
+
 
     def process(self):
         """Перемещается, если возможно в пустую ячейку и уменьшает time_to_reproduce на 1"""

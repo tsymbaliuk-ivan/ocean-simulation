@@ -13,8 +13,8 @@ class Settings:
         self.max_rows = 25
         self.max_cols = 75
 
-        self.prey_number = 40
-        self.predators_number = 10
+        self.prey_number = 30
+        self.predators_number = 5
         self.obstacles_number = 10
 
         self.image_for_obstacle = '⛰'

@@ -46,7 +46,7 @@ class Ocean:
     def add_element(self, ocean_element, cell):
         """Будем заполнять cells"""
         i = 0
-        while i != self.obstacles_number:
+        while i != ocean_element.number_of_element:
             x = randint(0, self.num_cols - 1)
             y = randint(0, self.num_rows - 1)
             if type(self.cells[y][x]) == type(cell):
