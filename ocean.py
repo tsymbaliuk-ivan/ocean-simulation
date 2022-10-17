@@ -1,20 +1,18 @@
 from random import randint
-
+# from cell import Cell
+# from obstacle import Obstacle
 
 class Ocean:
     """Ocean - двумерный массив ячеек. В океане есть добыча, хищники, преграды и пустые ячейки"""
     cells = []
 
-    def __init__(self, ocean_settings, cell, num_rows, num_cols, prey_number, predators_number, obstacles_number):
-        # двумерный массив ячеек
-        self.cell = cell
-        self.ocean_settings = ocean_settings
-        self.num_rows = self.ocean_settings.num_rows
-        self.num_cols = num_cols
-        self.size = num_cols * num_rows
-        self.prey_number = prey_number
-        self.predators_number = predators_number
-        self.obstacles_number = obstacles_number
+    def __init__(self, settings):
+        self.num_rows = settings.num_rows
+        self.num_cols = settings.num_cols
+        self.prey_number = settings.prey_number
+        self.predators_number = settings.predators_number
+        self.obstacles_number = settings.obstacles_number
+
 
     def get_num_prey(self):
         """return number of prey"""
@@ -31,20 +29,24 @@ class Ocean:
 
     def initialize(self):
         """init size ocean, prey, predator, obstacle"""
-
-        self.num_cols = randint(10, 75)
-        self.num_rows = randint(5, 25)
-        self.prey_number = randint(125, 175)
-        self.predators_number = randint(10, 30)
-        self.obstacles_number = randint(50, 100)
+        pass
 
     def init_cells(self, obstacles_number, prey_number, predators_number):
         self.prey_number = prey_number
         self.predators_number = predators_number
         self.obstacles_number = obstacles_number
 
-    def add_obstacles(self, num_obstacles):
-        self.obstacles_number = num_obstacles
+    def add_obstacles(self, obstacle, cell):
+        """Будем заполнять cells"""
+        i = 0
+        while i != self.obstacles_number:
+            x = randint(0, self.num_cols - 1)
+            y = randint(0, self.num_rows - 1)
+            if type(self.cells[y][x]) == type(cell):
+                self.cells[y][x] = obstacle
+            else:
+                continue
+            i += 1
 
     def add_predators(self, num_predators):
         self.predators_number = num_predators
@@ -61,7 +63,7 @@ class Ocean:
 
         for x in range(self.num_rows):
             for y in range(len(self.cells[x])):
-                print(f'{self.cell}\t', end='')
+                print(f'{self.cells[x][y]}\t', end='')
             print()
 
 
@@ -73,9 +75,8 @@ class Ocean:
         """Запрашивает у пользователя количество итераций и начинает моделирование"""
         pass
 
-    def create_ocean(self):
-
+    def create_ocean(self, cell):
         for y in range(self.num_rows):
             self.cells.append([])
             for x in range(self.num_cols):
-                self.cells[y].append(self.cell)
+                self.cells[y].append(cell)

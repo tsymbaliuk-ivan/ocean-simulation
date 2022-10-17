@@ -5,9 +5,9 @@ class Cell:
     # default_image = '-'
     # offset = coordinate
 
-    def __init__(self, ocean, offset, image): #, coordinate):#, offset, image):
+    def __init__(self): #, ocean, offset, image): #, coordinate):#, offset, image):
         # self.offset = offset
-        self.image = image
+        self.image = '-'
         # self.default_image = '-'
         # self.x = coordinate.x
         # self.y = coordinate.y
