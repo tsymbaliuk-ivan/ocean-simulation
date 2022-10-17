@@ -5,9 +5,9 @@ class Prey(Cell):
     """Подкласс Cell, добыча. Может перемещаться, размножаться и быть сьеденой"""
     # default_pray_image = 'f'
     # time_to_reproduce = 6
-    def __init__(self, offset, image):
-        super().__init__(offset, image)
-        self.image = 'f'
+    def __init__(self, settings):
+        super().__init__()
+        self.image = settings.image_for_prey
         self.time_to_reproduce = 6
 
     def process(self):

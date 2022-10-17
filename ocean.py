@@ -36,14 +36,21 @@ class Ocean:
         self.predators_number = predators_number
         self.obstacles_number = obstacles_number
 
-    def add_obstacles(self, obstacle, cell):
+    def add_inhabitants(self, obstacles, prey, predator, cell):
+        """Добавим обитателей океана, включая препятствия"""
+        ocean_elements = obstacles, prey, predator
+        for ocean_element in ocean_elements:
+            self.add_element(ocean_element, cell)
+
+
+    def add_element(self, ocean_element, cell):
         """Будем заполнять cells"""
         i = 0
         while i != self.obstacles_number:
             x = randint(0, self.num_cols - 1)
             y = randint(0, self.num_rows - 1)
             if type(self.cells[y][x]) == type(cell):
-                self.cells[y][x] = obstacle
+                self.cells[y][x] = ocean_element
             else:
                 continue
             i += 1
@@ -57,6 +64,8 @@ class Ocean:
     def display_border(self):
         """отображает максимальную ограниченную область океана (горизонтальная граница)"""
         pass
+
+
 
     def display_cells(self):
         """пересчитывает и выводит массив cells"""
@@ -76,6 +85,8 @@ class Ocean:
         pass
 
     def create_ocean(self, cell):
+
+        # заполним все места пробелами
         for y in range(self.num_rows):
             self.cells.append([])
             for x in range(self.num_cols):
