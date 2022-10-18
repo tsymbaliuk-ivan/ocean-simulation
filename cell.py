@@ -7,8 +7,8 @@ class Cell:
     def __init__(self, settings):
         # self.offset = offset
         self.image = settings.image_for_cell
-        # self.x = coordinate.x
-        # self.y = coordinate.y
+        self.x = settings.x
+        self.y = settings.y
 
     def __repr__(self):
         return self.image

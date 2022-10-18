@@ -1,4 +1,4 @@
-from random import randint
+from random import randint, randrange
 
 
 class Ocean:
@@ -11,6 +11,24 @@ class Ocean:
         self.prey_number = settings.prey_number
         self.predators_number = settings.predators_number
         self.obstacles_number = settings.obstacles_number
+
+    def add_inhabitants(self, obstacles, prey, predator, cell):
+        """Add inhabitants of ocean: obstacles, prey, predator"""
+        ocean_elements = obstacles, prey, predator
+        for ocean_element in ocean_elements:
+            self.add_element(ocean_element, cell)
+
+    def add_element(self, ocean_element, cell):
+        """Add inhabitant to ocean in free cells"""
+        i = 0
+        while i != ocean_element.number_of_element:
+            x = randint(0, self.num_cols - 1)
+            y = randint(0, self.num_rows - 1)
+            if type(self.cells[y][x]) == type(cell):
+                self.cells[y][x] = ocean_element
+            else:
+                continue
+            i += 1
 
     def get_num_prey(self):
         """return number of prey"""
@@ -34,23 +52,7 @@ class Ocean:
         self.predators_number = predators_number
         self.obstacles_number = obstacles_number
 
-    def add_inhabitants(self, obstacles, prey, predator, cell):
-        """Добавим обитателей океана, включая препятствия"""
-        ocean_elements = obstacles, prey, predator
-        for ocean_element in ocean_elements:
-            self.add_element(ocean_element, cell)
 
-    def add_element(self, ocean_element, cell):
-        """Будем заполнять cells"""
-        i = 0
-        while i != ocean_element.number_of_element:
-            x = randint(0, self.num_cols - 1)
-            y = randint(0, self.num_rows - 1)
-            if type(self.cells[y][x]) == type(cell):
-                self.cells[y][x] = ocean_element
-            else:
-                continue
-            i += 1
 
     def add_predators(self, num_predators):
         self.predators_number = num_predators
@@ -79,9 +81,21 @@ class Ocean:
         pass
 
     def create_ocean(self, cell):
-
         # заполним все места пробелами
         for y in range(self.num_rows):
             self.cells.append([])
             for x in range(self.num_cols):
                 self.cells[y].append(cell)
+
+    def process(self, prey, cell):
+        for x in range(self.num_rows):
+            for y in range(len(self.cells[x])):
+                if type(self.cells[x][y]) == type(prey):
+
+                    if prey.time_to_reproduce == 0:
+                        self.cells[x][y] = cell
+                    else:
+                        new_x = randrange(x - 1, x + 1)
+                        new_y = randrange(y - 1, y + 1)
+                        prey.time_to_reproduce -= 1
+                        self.cells[new_x][new_y] = prey
