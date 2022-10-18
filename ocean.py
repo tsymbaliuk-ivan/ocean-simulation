@@ -31,9 +31,6 @@ class Ocean:
         for i in range(len(ocean_elements)):
             self.add_element(ocean_elements[i], settings, ocean_elements_type[i])
 
-        # for ocean_element in ocean_elements:
-        #     self.add_element(ocean_element, settings, ocean_elements_type[i])
-
     def add_element(self, ocean_element, settings, ocean_elements_type):
         """Add inhabitant to ocean in free cells"""
         i = 0
@@ -45,19 +42,6 @@ class Ocean:
             else:
                 continue
             i += 1
-
-    # def add_preys(self, prey, settings):
-    #     """Add inhabitant to ocean in free cells"""
-    #     i = 0
-    #     while i != prey.number_of_element:
-    #         x = randint(0, self.num_cols - 1)
-    #         y = randint(0, self.num_rows - 1)
-    #         if type(self.cells[y][x]) == type(Cell(settings)):  # use isinstance
-    #             # self.cells[y][x] = Prey(settings, x, y)
-    #             self.cells[y][x] = Prey(settings, x, y)
-    #         else:
-    #             continue
-    #         i += 1
 
     def get_num_prey(self):
         """return number of prey"""
@@ -76,24 +60,8 @@ class Ocean:
         """init size ocean, prey, predator, obstacle"""
         pass
 
-    def init_cells(self, obstacles_number, prey_number, predators_number):
-        self.prey_number = prey_number
-        self.predators_number = predators_number
-        self.obstacles_number = obstacles_number
-
-    def add_predators(self, num_predators):
-        self.predators_number = num_predators
-
-    def add_prey(self, num_prey):
-        self.prey_number = num_prey
-
-    def display_border(self):
-        """отображает максимальную ограниченную область океана (горизонтальная граница)"""
-        pass
-
     def display_cells(self, settings):
         """Print all cells"""
-
         for x in range(self.num_rows):
             for y in range(len(self.cells[x])):
                 if self.cells[x][y]:
@@ -105,7 +73,19 @@ class Ocean:
 
     def display_stats(self):
         """Обновляет отображаемый номер итерации, количество преград, хищников и добычи"""
-        pass
+        preys = []
+        obstacles = []
+        predators = []
+        for x in range(self.num_rows):
+            for y in range(len(self.cells[x])):
+                if type(self.cells[x][y]) == Prey:
+                    preys.append(self.cells[x][y])
+                if type(self.cells[x][y]) == Predator:
+                    predators.append(self.cells[x][y])
+                if type(self.cells[x][y]) == Obstacle:
+                    obstacles.append(self.cells[x][y])
+
+        return print(f'preys = {len(preys)}, predators = {len(predators)}, obstacles = {len(obstacles)}')
 
     def run(self):
         """Запрашивает у пользователя количество итераций и начинает моделирование"""
@@ -119,11 +99,11 @@ class Ocean:
 
 
 
-    def get_all_preys(self, prey):
+    def get_number_preys(self):
         preys = []
         for x in range(self.num_rows):
             for y in range(len(self.cells[x])):
-                if type(self.cells[x][y]) == type(prey):
+                if type(self.cells[x][y]) == Prey:
                     preys.append(self.cells[x][y])
         return preys
 

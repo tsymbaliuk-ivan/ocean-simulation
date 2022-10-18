@@ -10,6 +10,7 @@ predator = Predator(ocean, ocean_settings)
 obstacle = Obstacle(ocean, ocean_settings)
 prey = Prey(ocean, ocean_settings)
 
+
 ocean.create_ocean()
 ocean.add_inhabitants(obstacle, prey, predator, ocean_settings)
 ocean.display_cells(ocean_settings)
