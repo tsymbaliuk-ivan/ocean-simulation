@@ -4,11 +4,11 @@ from coordinate import Coordinate
 class Cell:
     """Cell - superclass for all kinds of cells that are in the ocean"""
 
-    def __init__(self, settings):
+    def __init__(self, settings, x=0, y=0):
         # self.offset = offset
         self.image = settings.image_for_cell
-        self.x = settings.x
-        self.y = settings.y
+        self.x = x
+        self.y = y
 
     def __repr__(self):
         return self.image

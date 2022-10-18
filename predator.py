@@ -4,13 +4,14 @@ from prey import Prey
 class Predator(Prey):
     """Subclass Prey, predator, can move, breed, eat prey"""
 
-    def __init__(self, settings):
-        super().__init__(settings)
+    def __init__(self, settings, x=0, y=0):
+        super().__init__(settings, x, y)
         self.time_to_feed = 6
         self.image = settings.image_for_predator
         self.number_of_element = settings.predators_number
-        self.x = settings.x
-        self.y = settings.y
+
+        self.x = x
+        self.y = y
 
     def process(self):
         """Проверяет time_to_feed, (если = 0 - смерть), иначе пытается сьесть добычу, в противном случае,

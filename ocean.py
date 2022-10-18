@@ -1,4 +1,8 @@
 from random import randint, randrange
+from cell import Cell
+from prey import Prey
+from predator import Predator
+from obstacle import Obstacle
 
 
 class Ocean:
@@ -12,20 +16,39 @@ class Ocean:
         self.predators_number = settings.predators_number
         self.obstacles_number = settings.obstacles_number
 
-    def add_inhabitants(self, obstacles, prey, predator, cell):
+    def add_inhabitants(self, obstacles, prey, predator, settings):
         """Add inhabitants of ocean: obstacles, prey, predator"""
         ocean_elements = obstacles, prey, predator
-        for ocean_element in ocean_elements:
-            self.add_element(ocean_element, cell)
+        ocean_elements_type = Obstacle, Prey, Predator
 
-    def add_element(self, ocean_element, cell):
+        for i in range(len(ocean_elements)):
+            self.add_element(ocean_elements[i], settings, ocean_elements_type[i])
+
+        # for ocean_element in ocean_elements:
+        #     self.add_element(ocean_element, settings, ocean_elements_type[i])
+
+    def add_element(self, ocean_element, settings, ocean_elements_type):
         """Add inhabitant to ocean in free cells"""
         i = 0
         while i != ocean_element.number_of_element:
             x = randint(0, self.num_cols - 1)
             y = randint(0, self.num_rows - 1)
-            if type(self.cells[y][x]) == type(cell):
-                self.cells[y][x] = ocean_element
+            if type(self.cells[y][x]) == type(Cell(settings)):  # use isinstance
+                self.cells[y][x] = ocean_elements_type(settings, x, y)
+                # self.cells[y][x] = ocean_element
+            else:
+                continue
+            i += 1
+
+    def add_preys(self, prey, settings):
+        """Add inhabitant to ocean in free cells"""
+        i = 0
+        while i != prey.number_of_element:
+            x = randint(0, self.num_cols - 1)
+            y = randint(0, self.num_rows - 1)
+            if type(self.cells[y][x]) == type(Cell(settings)):  # use isinstance
+                # self.cells[y][x] = Prey(settings, x, y)
+                self.cells[y][x] = Prey(settings, x, y)
             else:
                 continue
             i += 1
@@ -52,8 +75,6 @@ class Ocean:
         self.predators_number = predators_number
         self.obstacles_number = obstacles_number
 
-
-
     def add_predators(self, num_predators):
         self.predators_number = num_predators
 
@@ -71,6 +92,8 @@ class Ocean:
             for y in range(len(self.cells[x])):
                 print(f'{self.cells[x][y]}\t', end='')
             print()
+        # print(self.cells[1][4].x)
+        # print(self.cells[1][4].y)
 
     def display_stats(self):
         """Обновляет отображаемый номер итерации, количество преград, хищников и добычи"""
@@ -80,12 +103,12 @@ class Ocean:
         """Запрашивает у пользователя количество итераций и начинает моделирование"""
         pass
 
-    def create_ocean(self, cell):
+    def create_ocean(self, settings):
         # заполним все места пробелами
         for y in range(self.num_rows):
             self.cells.append([])
             for x in range(self.num_cols):
-                self.cells[y].append(cell)
+                self.cells[y].append(Cell(settings, x, y))
 
     def process(self, prey, cell):
         for x in range(self.num_rows):
@@ -99,3 +122,9 @@ class Ocean:
                         new_y = randrange(y - 1, y + 1)
                         prey.time_to_reproduce -= 1
                         self.cells[new_x][new_y] = prey
+
+    def get_coord_for_all_prey(self, prey):
+        for x in range(self.num_rows):
+            for y in range(len(self.cells[x])):
+                if type(self.cells[x][y]) == type(prey):
+                    print(f'{self.cells[x][y]} x = {self.cells[x][y].x}, y = {self.cells[x][y].y}')

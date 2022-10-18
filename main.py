@@ -8,18 +8,20 @@ from predator import Predator
 
 
 ocean_settings = Settings()
-cell = Cell(ocean_settings)
+# cell = Cell(ocean_settings)
 predator = Predator(ocean_settings)
 obstacle = Obstacle(ocean_settings)
 prey = Prey(ocean_settings)
 ocean = Ocean(ocean_settings)
 
-ocean.create_ocean(cell)
-ocean.add_inhabitants(obstacle, prey, predator, cell)
+ocean.create_ocean(ocean_settings)
+ocean.add_inhabitants(obstacle, prey, predator, ocean_settings)
+
+# ocean.add_preys(prey, ocean_settings)
 
 ocean.display_cells()
+# ocean.get_coord_for_all_prey(prey)
 
-#
 # ocean.process(prey, cell)
 #
 # print()
