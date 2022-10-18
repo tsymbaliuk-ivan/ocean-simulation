@@ -16,6 +16,13 @@ class Ocean:
         self.predators_number = settings.predators_number
         self.obstacles_number = settings.obstacles_number
 
+    def create_ocean(self):
+        """Fill ocean with cells"""
+        for y in range(self.num_rows):
+            self.cells.append([])
+            for x in range(self.num_cols):
+                self.cells[y].append(None)
+
     def add_inhabitants(self, obstacles, prey, predator, settings):
         """Add inhabitants of ocean: obstacles, prey, predator"""
         ocean_elements = obstacles, prey, predator
@@ -33,25 +40,24 @@ class Ocean:
         while i != ocean_element.number_of_element:
             x = randint(0, self.num_cols - 1)
             y = randint(0, self.num_rows - 1)
-            if type(self.cells[y][x]) == type(Cell(settings)):  # use isinstance
-                self.cells[y][x] = ocean_elements_type(settings, x, y)
-                # self.cells[y][x] = ocean_element
+            if self.cells[y][x] is None:
+                self.cells[y][x] = ocean_elements_type(self, settings, x, y)
             else:
                 continue
             i += 1
 
-    def add_preys(self, prey, settings):
-        """Add inhabitant to ocean in free cells"""
-        i = 0
-        while i != prey.number_of_element:
-            x = randint(0, self.num_cols - 1)
-            y = randint(0, self.num_rows - 1)
-            if type(self.cells[y][x]) == type(Cell(settings)):  # use isinstance
-                # self.cells[y][x] = Prey(settings, x, y)
-                self.cells[y][x] = Prey(settings, x, y)
-            else:
-                continue
-            i += 1
+    # def add_preys(self, prey, settings):
+    #     """Add inhabitant to ocean in free cells"""
+    #     i = 0
+    #     while i != prey.number_of_element:
+    #         x = randint(0, self.num_cols - 1)
+    #         y = randint(0, self.num_rows - 1)
+    #         if type(self.cells[y][x]) == type(Cell(settings)):  # use isinstance
+    #             # self.cells[y][x] = Prey(settings, x, y)
+    #             self.cells[y][x] = Prey(settings, x, y)
+    #         else:
+    #             continue
+    #         i += 1
 
     def get_num_prey(self):
         """return number of prey"""
@@ -85,15 +91,17 @@ class Ocean:
         """отображает максимальную ограниченную область океана (горизонтальная граница)"""
         pass
 
-    def display_cells(self):
-        """пересчитывает и выводит массив cells"""
+    def display_cells(self, settings):
+        """Print all cells"""
 
         for x in range(self.num_rows):
             for y in range(len(self.cells[x])):
-                print(f'{self.cells[x][y]}\t', end='')
+                if self.cells[x][y]:
+                    print(f'{self.cells[x][y]}\t', end='')
+                else:
+                    print(f'{settings.image_for_cell}\t', end='')
             print()
-        # print(self.cells[1][4].x)
-        # print(self.cells[1][4].y)
+
 
     def display_stats(self):
         """Обновляет отображаемый номер итерации, количество преград, хищников и добычи"""
@@ -103,28 +111,47 @@ class Ocean:
         """Запрашивает у пользователя количество итераций и начинает моделирование"""
         pass
 
-    def create_ocean(self, settings):
-        # заполним все места пробелами
-        for y in range(self.num_rows):
-            self.cells.append([])
-            for x in range(self.num_cols):
-                self.cells[y].append(Cell(settings, x, y))
+    def process(self):
+        for x in range(self.num_rows):
+            for y in range(len(self.cells[x])):
+                if self.cells[x][y]:
+                    self.cells[x][y].process()
 
-    def process(self, prey, cell):
+
+
+    def get_all_preys(self, prey):
+        preys = []
         for x in range(self.num_rows):
             for y in range(len(self.cells[x])):
                 if type(self.cells[x][y]) == type(prey):
+                    preys.append(self.cells[x][y])
+        return preys
 
-                    if prey.time_to_reproduce == 0:
-                        self.cells[x][y] = cell
-                    else:
-                        new_x = randrange(x - 1, x + 1)
-                        new_y = randrange(y - 1, y + 1)
-                        prey.time_to_reproduce -= 1
-                        self.cells[new_x][new_y] = prey
+    # def process(self, prey, settings):
+    #
+    #     preys = self.get_all_preys(prey)
+    #     print(preys)
+    #
+    #     for prey in preys:
+    #         if prey.time_to_reproduce == 0:
+    #             self.cells[prey.x][prey.y] = Cell(settings, prey.x, prey.y)
+    #         else:
+    #             new_x = randrange(prey.x - 1, prey.x + 1)
+    #             new_y = randrange(prey.y - 1, prey.y + 1)
+    #             self.cells[new_x][new_y] = Prey(settings, new_x, new_y)
+    #             self.cells[new_x][new_y].time_to_reproduce -= 1
+    #
+    #     # if prey.time_to_reproduce == 0:
+    #     #     self.cells[x][y] = Cell(settings, x, y)
+    #     # else:
+    #     #     self.cells[x][y] = Cell(settings, x, y)
+    #     #     new_x = randrange(x - 1, x + 1)
+    #     #     new_y = randrange(y - 1, y + 1)
+    #     #     self.cells[new_x][new_y] = Prey(settings, new_x, new_y)
+    #     #     prey.time_to_reproduce -= 1
 
     def get_coord_for_all_prey(self, prey):
         for x in range(self.num_rows):
             for y in range(len(self.cells[x])):
-                if type(self.cells[x][y]) == type(prey):
+                if type(self.cells[x][y]) == Prey:
                     print(f'{self.cells[x][y]} x = {self.cells[x][y].x}, y = {self.cells[x][y].y}')

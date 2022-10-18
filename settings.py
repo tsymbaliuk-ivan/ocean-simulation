@@ -18,9 +18,6 @@ class Settings:
         # self.predators_number = 20
         # self.obstacles_number = 75
 
-        # self.x = 0
-        # self.y = 0
-
         self.image_for_cell = '⁓'
         self.image_for_obstacle = '⛰'
         self.image_for_prey = '\033[34m🐟\033[0m'
