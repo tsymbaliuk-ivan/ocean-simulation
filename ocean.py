@@ -43,22 +43,7 @@ class Ocean:
                 continue
             i += 1
 
-    def get_num_prey(self):
-        """return number of prey"""
-        pass
 
-    def set_num_prey(self, a_number):
-        """set number of prey"""
-        self.prey_number = a_number
-
-    def get_num_predators(self):
-        """return number of predators"""
-
-        return self.predators_number
-
-    def initialize(self):
-        """init size ocean, prey, predator, obstacle"""
-        pass
 
     def display_cells(self, settings):
         """Print all cells"""
@@ -87,21 +72,11 @@ class Ocean:
 
         return print(f'preys = {len(preys)}, predators = {len(predators)}, obstacles = {len(obstacles)}')
 
-    def run(self):
-        """Запрашивает у пользователя количество итераций и начинает моделирование"""
-        pass
-
     def process(self):
         for y in range(self.num_rows):
             for x in range(self.num_cols):
                 if type(self.cells[y][x]) == Prey or type(self.cells[y][x]) == Predator:
                     self.cells[y][x].process()
-
-        # for x in range(self.num_rows):
-        #     for y in range(len(self.cells[x])):
-        #         if self.cells[x][y] == Prey or self.cells[x][y] == Predator:
-        #             self.cells[x][y].process()
-
 
 
     def get_number_preys(self):
@@ -112,31 +87,29 @@ class Ocean:
                     preys.append(self.cells[x][y])
         return preys
 
-    # def process(self, prey, settings):
-    #
-    #     preys = self.get_all_preys(prey)
-    #     print(preys)
-    #
-    #     for prey in preys:
-    #         if prey.time_to_reproduce == 0:
-    #             self.cells[prey.x][prey.y] = Cell(settings, prey.x, prey.y)
-    #         else:
-    #             new_x = randrange(prey.x - 1, prey.x + 1)
-    #             new_y = randrange(prey.y - 1, prey.y + 1)
-    #             self.cells[new_x][new_y] = Prey(settings, new_x, new_y)
-    #             self.cells[new_x][new_y].time_to_reproduce -= 1
-    #
-    #     # if prey.time_to_reproduce == 0:
-    #     #     self.cells[x][y] = Cell(settings, x, y)
-    #     # else:
-    #     #     self.cells[x][y] = Cell(settings, x, y)
-    #     #     new_x = randrange(x - 1, x + 1)
-    #     #     new_y = randrange(y - 1, y + 1)
-    #     #     self.cells[new_x][new_y] = Prey(settings, new_x, new_y)
-    #     #     prey.time_to_reproduce -= 1
-
-    def get_coord_for_all_prey(self, prey):
+    def get_coord_for_all_prey(self):
         for x in range(self.num_rows):
             for y in range(len(self.cells[x])):
                 if type(self.cells[x][y]) == Prey:
                     print(f'{self.cells[x][y]} x = {self.cells[x][y].x}, y = {self.cells[x][y].y}')
+
+    def run(self):
+        """Запрашивает у пользователя количество итераций и начинает моделирование"""
+        pass
+
+    def get_num_prey(self):
+        """return number of prey"""
+        pass
+
+    def set_num_prey(self, a_number):
+        """set number of prey"""
+        self.prey_number = a_number
+
+    def get_num_predators(self):
+        """return number of predators"""
+
+        return self.predators_number
+
+    def initialize(self):
+        """init size ocean, prey, predator, obstacle"""
+        pass
