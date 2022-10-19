@@ -16,6 +16,10 @@ ocean.add_inhabitants(obstacle, prey, predator, ocean_settings)
 ocean.display_cells(ocean_settings)
 
 ocean.process()
+print()
+ocean.display_cells(ocean_settings)
+
+
 # ocean.get_coord_for_all_prey(prey)
 # ocean.process(prey, ocean_settings)
 # print('process')

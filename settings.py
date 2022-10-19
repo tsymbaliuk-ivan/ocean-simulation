@@ -7,7 +7,6 @@ class Settings:
         self.predators_number = 1
         self.obstacles_number = 1
 
-
         self.num_rows = 3
         self.num_cols = 4
 
@@ -17,6 +16,13 @@ class Settings:
         # self.prey_number = 150
         # self.predators_number = 20
         # self.obstacles_number = 75
+
+        # self.num_rows = 10
+        # self.num_cols = 30
+        #
+        # self.prey_number = 25
+        # self.predators_number = 10
+        # self.obstacles_number = 10
 
         self.image_for_cell = '⁓'
         self.image_for_obstacle = '⛰'

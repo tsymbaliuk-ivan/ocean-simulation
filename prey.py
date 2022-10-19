@@ -22,14 +22,13 @@ class Prey(Cell):
     def process(self):
         """Перемещается, если возможно в пустую ячейку и уменьшает time_to_reproduce на 1"""
 
-
-        print(f'before process for prey {self.x, self.y}')
-
-        # print(self.ocean.cells[self.y][self.x])
-
-        print(f'find new cell {self.find_cell()}')
         new_x, new_y = self.find_cell()
-        print(f'is vacant {self.is_vacant_cell(new_x, new_y)}')
+
+        if self.is_vacant_cell(new_x, new_y):
+            self.ocean.cells[self.y][self.x] = None
+            self.ocean.cells[new_y][new_x] = self
+
+
 
     def find_cell(self):
         new_x = -1
@@ -47,8 +46,7 @@ class Prey(Cell):
 
     def is_vacant_cell(self, new_x, new_y):
 
-        print(f'what inside {type(self.ocean.cells[new_x][new_y])}')
-        if self.ocean.cells[new_x][new_y] is None:
+        if self.ocean.cells[new_y][new_x] is None:
             return True
         else:
             return False
