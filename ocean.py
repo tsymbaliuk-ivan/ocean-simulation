@@ -92,10 +92,15 @@ class Ocean:
         pass
 
     def process(self):
-        for x in range(self.num_rows):
-            for y in range(len(self.cells[x])):
-                if self.cells[x][y]:
-                    self.cells[x][y].process()
+        for y in range(self.num_rows):
+            for x in range(self.num_cols):
+                if type(self.cells[y][x]) == Prey or type(self.cells[y][x]) == Predator:
+                    self.cells[y][x].process()
+
+        # for x in range(self.num_rows):
+        #     for y in range(len(self.cells[x])):
+        #         if self.cells[x][y] == Prey or self.cells[x][y] == Predator:
+        #             self.cells[x][y].process()
 
 
 

@@ -8,8 +8,8 @@ class Settings:
         self.obstacles_number = 1
 
 
-        self.num_rows = 6
-        self.num_cols = 10
+        self.num_rows = 3
+        self.num_cols = 4
 
         # self.num_rows = 25
         # self.num_cols = 75

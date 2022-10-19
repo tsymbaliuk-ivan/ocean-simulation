@@ -5,9 +5,7 @@ class Cell:
     """Cell - superclass for all kinds of cells that are in the ocean"""
 
     def __init__(self, ocean, settings, x=0, y=0):
-        # self.offset = offset
         self.ocean = ocean
-        # self.image = settings.image_for_cell
         self.x = x
         self.y = y
         self.settings = settings
