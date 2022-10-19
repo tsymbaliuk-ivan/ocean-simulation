@@ -6,7 +6,7 @@ class Predator(Prey):
 
     def __init__(self, ocean, settings, x, y):
         super().__init__(ocean, settings, x, y)
-        self.time_to_feed = 6
+        self.time_to_feed = settings.time_to_feed
         self.image = settings.image_for_predator
         self.number_of_element = settings.predators_number
 
@@ -26,6 +26,8 @@ class Predator(Prey):
         #         self.time_to_feed -= 1
         # super().process()
         # print(self.x, self.y)
+
+        super().find_prey_from_neighbors(Prey, self.settings)
 
     def get_coord_for_all_predator(self):
         for x in range(self.ocean.num_rows):

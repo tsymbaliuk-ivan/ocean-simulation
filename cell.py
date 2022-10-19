@@ -47,33 +47,50 @@ class Cell:
         self.move_in_free_cell()
 
 
+    def find_prey_from_neighbors(self, Prey, settings):
 
+        status = False
+        prey = None
+        all_neighbors = [self.east(), self.west(), self.north(), self.south()]
+        print(all_neighbors)
+        preys = []
+        for neighbor in all_neighbors:
+            if type(neighbor) == Prey:
+                preys.append(neighbor)
 
-    # def find_neighbors(self):
-    #     all_neighbor = [self.east()]
-    #     print(all_neighbor)
-    #
-    #
-    # def find_prey(self, predator, Prey):
-    #     """Ищет соседнюю ячейку с добычей"""
-    #
-    #     east_neighbor = self.east()
-    #
-    #     if type(east_neighbor) == Prey:
-    #         self.ocean.cells[self.y][self.x + 1] = self
-    #         self.ocean.cells[self.y][self.x] = None
-    #         return True
-    #     else:
-    #         return False
-    #
-    # def east(self):
-    #     """Возвращает ячейку, на востоке от данной"""
-    #     if self.x + 1 < self.ocean.num_cols:
-    #         # print(self.ocean.cells[self.y][self.x])
-    #         # print(self.x, self.y)
-    #         return self.ocean.cells[self.y][self.x]
+        if preys:
+            prey = random.choice(preys)
+            print(prey.x, prey.y)
 
+        if prey:
+            # eat prey
+            self.ocean.cells[prey.y][prey.x] = self
+            self.ocean.cells[self.y][self.x] = None
+            self.ocean.display_cells(settings)
+            self.time_to_feed = settings.time_to_feed
+            status = True
 
+        return status
+
+    def east(self):
+        """Возвращает ячейку, на востоке от данной, если она есть"""
+        if self.x + 1 < self.ocean.num_cols:
+            return self.ocean.cells[self.y][self.x + 1]
+
+    def north(self):
+        """Возвращает ячейку, на севере от данной"""
+        if self.y - 1 >= 0:
+            return self.ocean.cells[self.y - 1][self.x]
+
+    def south(self):
+        """Возвращает ячейку, на юге от данной"""
+        if self.y + 1 < self.ocean.num_rows:
+            return self.ocean.cells[self.y + 1][self.x]
+
+    def west(self):
+        """Возвращает ячейку, на западе от данной"""
+        if self.x - 1 >= 0:
+            return self.ocean.cells[self.y][self.x - 1]
 
     def get_cell_at(self, a_coord):
         """Возвращает ячейку с координатами a_coord в массиве cells из ocean"""
@@ -81,18 +98,6 @@ class Cell:
 
     def assign_cell_at(self, a_coord, a_cell):
         """Помещает ячейку a_cell в место с координатоми a_coord в массиве cells"""
-        pass
-
-    def north(self):
-        """Возвращает ячейку, на севере от данной"""
-        pass
-
-    def south(self):
-        """Возвращает ячейку, на юге от данной"""
-        pass
-
-    def west(self):
-        """Возвращает ячейку, на западе от данной"""
         pass
 
     def get_off_set(self):

@@ -44,7 +44,6 @@ class Ocean:
             i += 1
 
 
-
     def display_cells(self, settings):
         """Print all cells"""
         for x in range(self.num_rows):
