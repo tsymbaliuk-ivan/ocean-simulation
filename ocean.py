@@ -1,5 +1,4 @@
-from random import randint, randrange
-from cell import Cell
+from random import randint
 from prey import Prey
 from predator import Predator
 from obstacle import Obstacle
@@ -43,7 +42,6 @@ class Ocean:
                 continue
             i += 1
 
-
     def display_cells(self, settings):
         """Print all cells"""
         for x in range(self.num_rows):
@@ -53,7 +51,6 @@ class Ocean:
                 else:
                     print(f'{settings.image_for_cell}\t', end='')
             print()
-
 
     def display_stats(self):
         """Обновляет отображаемый номер итерации, количество преград, хищников и добычи"""
@@ -75,17 +72,8 @@ class Ocean:
         for y in range(self.num_rows):
             for x in range(self.num_cols):
                 if type(self.cells[y][x]) == Prey or type(self.cells[y][x]) == Predator:
-                    # if self.cells[y][x].flag == False:
                     if self.cells[y][x].is_hungry:
                         self.cells[y][x].process()
-
-    def get_number_preys(self):
-        preys = []
-        for x in range(self.num_rows):
-            for y in range(len(self.cells[x])):
-                if type(self.cells[x][y]) == Prey:
-                    preys.append(self.cells[x][y])
-        return preys
 
     def get_coord_for_all_prey(self):
         for x in range(self.num_rows):
@@ -96,19 +84,6 @@ class Ocean:
     def run(self):
         """Запрашивает у пользователя количество итераций и начинает моделирование"""
         pass
-
-    def get_num_prey(self):
-        """return number of prey"""
-        pass
-
-    def set_num_prey(self, a_number):
-        """set number of prey"""
-        self.prey_number = a_number
-
-    def get_num_predators(self):
-        """return number of predators"""
-
-        return self.predators_number
 
     def initialize(self):
         """init size ocean, prey, predator, obstacle"""

@@ -3,12 +3,12 @@ class Settings:
 
     def __init__(self):
         """Initialize settings."""
-        self.prey_number =8
-        self.predators_number = 1
-        self.obstacles_number = 0
+        self.prey_number = 50
+        self.predators_number = 2
+        self.obstacles_number = 5
 
-        self.num_rows = 3
-        self.num_cols = 4
+        self.num_rows = 10
+        self.num_cols = 20
 
         # self.num_rows = 25
         # self.num_cols = 75
@@ -16,7 +16,7 @@ class Settings:
         # self.prey_number = 150
         # self.predators_number = 20
         # self.obstacles_number = 75
-
+        #
         # self.num_rows = 10
         # self.num_cols = 30
         #

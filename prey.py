@@ -1,5 +1,4 @@
 from cell import Cell
-from random import randint, randrange
 
 
 class Prey(Cell):
