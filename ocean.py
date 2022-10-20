@@ -75,6 +75,7 @@ class Ocean:
                     if self.cells[y][x].is_hungry:
                         self.cells[y][x].process()
 
+
     def get_coord_for_all_prey(self):
         for x in range(self.num_rows):
             for y in range(len(self.cells[x])):
