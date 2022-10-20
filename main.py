@@ -22,6 +22,18 @@ print()
 predator.set_predator_is_hungry(Predator)
 ocean.process()
 ocean.display_cells(ocean_settings)
+
+print()
+predator.set_predator_is_hungry(Predator)
+ocean.process()
+ocean.display_cells(ocean_settings)
+
+print()
+predator.set_predator_is_hungry(Predator)
+ocean.process()
+ocean.display_cells(ocean_settings)
+
+
 # predator.set_predator_is_hungry(Predator)
 # ocean.display_cells(ocean_settings)
 # ocean.process()

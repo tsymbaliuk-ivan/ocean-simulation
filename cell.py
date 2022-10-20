@@ -65,9 +65,9 @@ class Cell:
             # eat prey, занять новое место
             # print(self.ocean.cells[prey.y][prey.x])
 
-
-            self.ocean.cells[self.y][self.x] = None
             self.ocean.cells[prey.y][prey.x] = self
+            self.ocean.cells[self.y][self.x] = None
+
             self.x = prey.x
             self.y = prey.y
 
