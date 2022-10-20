@@ -75,8 +75,9 @@ class Ocean:
         for y in range(self.num_rows):
             for x in range(self.num_cols):
                 if type(self.cells[y][x]) == Prey or type(self.cells[y][x]) == Predator:
-                    self.cells[y][x].process()
-
+                    # if self.cells[y][x].flag == False:
+                    if self.cells[y][x].is_hungry:
+                        self.cells[y][x].process()
 
     def get_number_preys(self):
         preys = []

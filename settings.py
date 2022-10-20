@@ -3,12 +3,12 @@ class Settings:
 
     def __init__(self):
         """Initialize settings."""
-        self.prey_number = 12
+        self.prey_number =8
         self.predators_number = 1
         self.obstacles_number = 0
 
-        self.num_rows = 4
-        self.num_cols = 5
+        self.num_rows = 3
+        self.num_cols = 4
 
         # self.num_rows = 25
         # self.num_cols = 75
@@ -30,3 +30,4 @@ class Settings:
         self.image_for_predator = '\033[31m🦈\033[0m'
 
         self.time_to_feed = 6
+        self.time_to_reproduce = 6
