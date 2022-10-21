@@ -54,10 +54,10 @@ class Predator(Prey):
         else:
             super().process()
 
-    def set_predator_is_hungry(self, predator):
+    def set_predator_is_hungry(self):
         for y in range(self.ocean.num_rows):
             for x in range(self.ocean.num_cols):
-                if type(self.ocean.cells[y][x]) == predator:
+                if type(self.ocean.cells[y][x]) == type(self):
                     self.ocean.cells[y][x].is_hungry = True
 
     def east(self):

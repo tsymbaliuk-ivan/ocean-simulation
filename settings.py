@@ -5,7 +5,7 @@ class Settings:
         """Initialize settings."""
         self.prey_number = 50
         self.predators_number = 2
-        self.obstacles_number = 5
+        self.obstacles_number = 10
 
         self.num_rows = 10
         self.num_cols = 20
