@@ -49,13 +49,20 @@ class Ocean:
 
     def display_cells(self):
         """Print all cells"""
+        print('\t', end='')
+        print('\033[34m⥎\033[0m\t' * self.num_cols)
         for x in range(self.num_rows):
+            print('\033[34m⥑\033[0m\t', end='')
+
             for y in range(len(self.cells[x])):
                 if self.cells[x][y]:
                     print(f'{self.cells[x][y]}\t', end='')
                 else:
                     print(f'{self.settings.image_for_cell}\t', end='')
+            print('\033[34m⥏\033[0m\t', end='')
             print()
+        print('\t', end='')
+        print('\033[34m⥐\033[0m\t' * self.num_cols)
 
     def display_stats(self):
         """Обновляет отображаемый номер итерации, количество преград, хищников и добычи"""
