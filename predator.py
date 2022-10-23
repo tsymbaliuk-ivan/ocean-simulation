@@ -10,7 +10,6 @@ class Predator(Prey):
         self.time_to_feed = settings.time_to_feed
         self.image = settings.image_for_predator
         self.number_of_element = settings.predators_number
-        self.is_hungry = True
 
     def __repr__(self):
         return self.settings.image_for_predator
@@ -19,40 +18,66 @@ class Predator(Prey):
 
         all_neighbors = [self.west(), self.north(), self.south(), self.east()]
         preys = []
-        # print(self.x, self.y)
-        # print(all_neighbors)
         for neighbor in all_neighbors:
             if type(neighbor) == Prey:
                 preys.append(neighbor)
-                # print(f'neighbors = {neighbor.x},{neighbor.y}')
+
         return preys
 
     def __eat_nearest_prey(self, preys):
 
+
         prey = random.choice(preys)
-        print(f'choise prey - {prey.x, prey.y}')  #######
         # сохраню старые координаты нашего текущего predator
         old_x = self.x
         old_y = self.y
+        self.x = prey.x
+        self.y = prey.y
         # поместим predator на место той рыбки, которую скушали
         self.ocean.cells[prey.y][prey.x] = self
         # освободим старое место
         self.ocean.cells[old_y][old_x] = None
         # присвоим новые координаты для нашего predator, которые были у жертвы
-        self.x = prey.x
-        self.y = prey.y
+        # self.x = prey.x
+        # self.y = prey.y
         # мы поели, значит не голодны до конца дня
         self.is_hungry = False
+        self.time_to_feed += 1
+
+        # print('ate')
+        # print(f'predator x = {self.x}, y = {self.y}')
 
     def process(self):
         """Проверяет time_to_feed, (если = 0 - смерть), иначе пытается сьесть добычу, в противном случае,
         перемещается в пустую ячейку, уменьшает time_to_reproduce на 1"""
+        self.time_to_feed -= 1
 
-        nearest_preys = self.__find_nearest_preys_if_exist()
-        if nearest_preys:
-            self.__eat_nearest_prey(nearest_preys)
+        if self.time_to_feed <= 0:
+            self.ocean.cells[self.y][self.x] = None
+
         else:
-            super().process()
+            nearest_preys = self.__find_nearest_preys_if_exist()
+            if nearest_preys:
+                print(f'predator x = {self.x}, y = {self.y}')
+                self.__eat_nearest_prey(nearest_preys)
+                print(f'eat nearest prey x = {self.x}, y = {self.y}')
+
+            else:
+                print(f'predator x = {self.x}, y = {self.y}')
+                print('only move')
+                if self.already_moving == False:
+                    super().process()
+                    print(f'coord after move x = {self.x}, y = {self.y}')
+                else:
+                    pass
+
+            # else:
+            #     print(f'coord before move x = {self.x}, y = {self.y}')
+            #     print('only move')
+            #     super().process()
+            #     print(f'coord after move x = {self.x}, y = {self.y}')
+
+        print(f'time_to_feed  = {self.time_to_feed}')
 
     def set_predator_is_hungry(self):
         for y in range(self.ocean.num_rows):

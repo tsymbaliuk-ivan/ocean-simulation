@@ -7,10 +7,8 @@ class Prey(Cell):
     def __init__(self, ocean, settings, x, y):
         super().__init__(ocean, settings, x, y)
         self.image = settings.image_for_prey
-        # self.time_to_reproduce = 6
+        self.time_to_reproduce = settings.time_to_reproduce
         self.number_of_element = settings.prey_number
-        # self.flag = False
-        self.is_hungry = True
 
     def __repr__(self):
         return self.settings.image_for_prey

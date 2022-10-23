@@ -43,12 +43,12 @@ class GeneratorXY:
             new_y = cell.y + 1
         # рыбка в нижнем левом углу
         elif cell.x == 0 and cell.y == cell.settings.num_rows - 1:
-            new_x = cell.x + 1
-            new_y = cell.y - 1
+            new_x = random.choice((cell.x + 1, cell.x))
+            new_y = random.choice((cell.y - 1, cell.y))
         # рыбка в нижнем правом углу
         elif cell.x == cell.settings.num_cols - 1 and cell.y == cell.settings.num_rows - 1:
-            new_x = cell.x - 1
-            new_y = cell.y - 1
+            new_x = random.choice((cell.x - 1, cell.x))
+            new_y = random.choice((cell.y - 1, cell.y))
         # рыбка в верхнем правом углу
         elif cell.x == cell.settings.num_cols - 1 and cell.y == 0:
             new_x = cell.x - 1
@@ -58,6 +58,6 @@ class GeneratorXY:
             new_y = randrange(cell.y - 1, cell.y + 1)
         # переделать без проверок
         if new_x == cell.x and new_y == cell.y:
-            cell.__generate_new_coord()
+            GeneratorXY.generate_new_coord(cell)
 
         return new_x, new_y

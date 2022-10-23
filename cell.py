@@ -8,7 +8,8 @@ class Cell:
         self.y = y
         self.ocean = ocean
         self.settings = settings
-        self.time_to_reproduce = settings.time_to_reproduce
+        self.is_hungry = True
+        self.already_moving = False
 
     def __repr__(self):
         return
@@ -22,7 +23,7 @@ class Cell:
             self.ocean.cells[new_y][new_x] = self
             self.ocean.cells[new_y][new_x].x = new_x
             self.ocean.cells[new_y][new_x].y = new_y
-
+            self.already_moving = True
             return True
 
         return False

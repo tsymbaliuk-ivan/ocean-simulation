@@ -2,7 +2,7 @@ from random import randint
 from prey import Prey
 from predator import Predator
 from obstacle import Obstacle
-from ui import *
+from ui import UI
 
 class Ocean:
     """Ocean is a 2D cell array. The ocean has prey, predators, obstacles and empty cell"""
@@ -49,20 +49,7 @@ class Ocean:
 
     def display_cells(self):
         """Print all cells"""
-        print('\t', end='')
-        print('\033[34m⥎\033[0m\t' * self.num_cols)
-        for x in range(self.num_rows):
-            print('\033[34m⥑\033[0m\t', end='')
-
-            for y in range(len(self.cells[x])):
-                if self.cells[x][y]:
-                    print(f'{self.cells[x][y]}\t', end='')
-                else:
-                    print(f'{self.settings.image_for_cell}\t', end='')
-            print('\033[34m⥏\033[0m\t', end='')
-            print()
-        print('\t', end='')
-        print('\033[34m⥐\033[0m\t' * self.num_cols)
+        UI.show_cells(self)
 
     def display_stats(self):
         """Обновляет отображаемый номер итерации, количество преград, хищников и добычи"""
@@ -78,34 +65,45 @@ class Ocean:
                 if type(self.cells[x][y]) == Obstacle:
                     obstacles.append(self.cells[x][y])
 
-        return print(f'preys = {len(preys)}, predators = {len(predators)}, obstacles = {len(obstacles)}')
+        UI.display_stats(preys, predators, obstacles)
 
     def __process(self):
         for y in range(self.num_rows):
             for x in range(self.num_cols):
-                if type(self.cells[y][x]) == Prey or type(self.cells[y][x]) == Predator:
-                    if self.cells[y][x].is_hungry:
-                        self.cells[y][x].process()
+                if self.cells[y][x] is not None and type(self.cells[y][x]) is not Obstacle and \
+                        self.cells[y][x].is_hungry:
+                    self.cells[y][x].process()
         self.predator.set_predator_is_hungry()
         self.display_cells()
 
-    def get_coord_for_all_prey(self):
-        for x in range(self.num_rows):
-            for y in range(len(self.cells[x])):
-                if type(self.cells[x][y]) == Prey:
-                    print(f'{self.cells[x][y]} x = {self.cells[x][y].x}, y = {self.cells[x][y].y}')
+    # def __process(self):
+    #     for y in range(self.num_rows):
+    #         for x in range(self.num_cols):
+    #             if type(self.cells[y][x]) == type(Prey): # or type(self.cells[y][x]) == Predator:
+    #                 self.cells[y][x].process()
+    #                 self.cells[y][x].time_to_reproduce -= 1
+    #             elif type(self.cells[y][x]) == Predator and self.cells[y][x].is_hungry:
+    #                 self.cells[y][x].process()
+    #     self.predator.set_predator_is_hungry()
+    #     self.display_cells()
+
+    # def get_coord_for_all_prey(self):
+    #     for x in range(self.num_rows):
+    #         for y in range(len(self.cells[x])):
+    #             if type(self.cells[x][y]) == Prey:
+    #                 print(f'{self.cells[x][y]} x = {self.cells[x][y].x}, y = {self.cells[x][y].y}')
 
     def run(self):
         """Запрашивает у пользователя количество итераций и начинает моделирование"""
-        # number_iteration = get_number_iteration()
-        number_iteration = 50
+        # number_iteration = UI.get_number_iteration()
+        number_iteration = 10
         self.__create_ocean()
         self.__add_inhabitants()
         self.display_stats()
         self.display_cells()
 
         for i in range(number_iteration):
-            print()
+            UI.print_border(self)
             self.__process()
 
         self.display_stats()
