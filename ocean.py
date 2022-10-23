@@ -81,7 +81,7 @@ class Ocean:
     def run(self):
         """Запрашивает у пользователя количество итераций и начинает моделирование"""
         # number_iteration = UI.get_number_iteration()
-        number_iteration = 20
+        number_iteration = 30
         self.__create_ocean()
         self.__add_inhabitants()
         self.display_stats()

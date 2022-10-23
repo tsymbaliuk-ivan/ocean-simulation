@@ -8,6 +8,7 @@ class Predator(Prey):
     def __init__(self, ocean, settings, x, y):
         super().__init__(ocean, settings, x, y)
         self.time_to_feed = settings.time_to_feed
+        self.time_to_reproduce = settings.time_to_reproduce
         self.image = settings.image_for_predator
         self.number_of_element = settings.predators_number
 
@@ -51,6 +52,7 @@ class Predator(Prey):
         """Проверяет time_to_feed, (если = 0 - смерть), иначе пытается сьесть добычу, в противном случае,
         перемещается в пустую ячейку, уменьшает time_to_reproduce на 1"""
         self.time_to_feed -= 1
+        self.time_to_reproduce -= 1
 
         if self.time_to_feed <= 0:
             self.ocean.cells[self.y][self.x] = None
@@ -65,19 +67,22 @@ class Predator(Prey):
             else:
                 print(f'predator x = {self.x}, y = {self.y}')
                 print('only move')
+
                 if self.already_moving == False:
+                    old_x = self.x
+                    old_y = self.y
                     super().process()
                     print(f'coord after move x = {self.x}, y = {self.y}')
+
+                    if self.time_to_reproduce <= 0 and self.ocean.cells[old_y][old_x] is None:
+                        self.ocean.cells[old_y][old_x] = Predator(self.ocean, self.settings, old_x, old_y)
+                        self.time_to_reproduce = 6
                 else:
                     pass
 
-            # else:
-            #     print(f'coord before move x = {self.x}, y = {self.y}')
-            #     print('only move')
-            #     super().process()
-            #     print(f'coord after move x = {self.x}, y = {self.y}')
         self.already_moving = True
         print(f'time_to_feed  = {self.time_to_feed}')
+        print(f'time_to_reproduce = {self.time_to_reproduce}')
 
     def set_predator_is_hungry(self):
         for y in range(self.ocean.num_rows):
