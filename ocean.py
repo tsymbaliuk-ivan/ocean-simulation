@@ -74,7 +74,8 @@ class Ocean:
                         not self.cells[y][x].already_moving and self.cells[y][x].is_hungry:
                     self.cells[y][x].process()
         self.predator.set_predator_is_hungry()
-        self.predator.set_alredy_moving()
+        self.predator.set_already_moving()
+
         self.display_cells()
 
 

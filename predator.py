@@ -56,28 +56,25 @@ class Predator(Cell):
 
         if self.time_to_feed <= 0:
             self.ocean.cells[self.y][self.x] = None
+        elif self.already_moving == False:
+            # Predator еще не ел и не двигался
+            nearest_preys = self.find_nearest_preys_if_exist()   # найти жертву, если такая есть
+            if nearest_preys:
+                print(f'predator x = {self.x}, y = {self.y}')
+                self.eat_nearest_prey(nearest_preys)
+                print(f'eat nearest prey x = {self.x}, y = {self.y}')
+            else:
+                print(f'predator x = {self.x}, y = {self.y}')
+                print('only move')
 
-        else:
-            if self.already_moving == False:
-                nearest_preys = self.find_nearest_preys_if_exist()
-                if nearest_preys:
-                    print(f'predator x = {self.x}, y = {self.y}')
-                    self.eat_nearest_prey(nearest_preys)
-                    print(f'eat nearest prey x = {self.x}, y = {self.y}')
-                else:
-                    print(f'predator x = {self.x}, y = {self.y}')
-                    print('only move')
-
-                    if self.already_moving == False:
-                        old_x = self.x
-                        old_y = self.y
-                        super().process()
-                        print(f'coord after move x = {self.x}, y = {self.y}')
-
-                        if self.time_to_reproduce <= 0 and self.ocean.cells[old_y][old_x] is None:
-                            self.ocean.cells[old_y][old_x] = Predator(self.ocean, self.settings, old_x, old_y)
-                            self.time_to_reproduce = self.settings.time_to_reproduce
-
+                old_x = self.x
+                old_y = self.y
+                super().process()  # жертв нет, только двигаться
+                print(f'coord after move x = {self.x}, y = {self.y}')
+                # если время пришло, пора размножатся, если получиться
+                if self.time_to_reproduce <= 0 and self.ocean.cells[old_y][old_x] is None:
+                    self.ocean.cells[old_y][old_x] = Predator(self.ocean, self.settings, old_x, old_y)
+                    self.time_to_reproduce = self.settings.time_to_reproduce_for_predator
 
         self.already_moving = True
         print(f'time_to_feed  = {self.time_to_feed}')
@@ -89,7 +86,7 @@ class Predator(Cell):
                 if type(self.ocean.cells[y][x]) == type(self):
                     self.ocean.cells[y][x].is_hungry = True
 
-    def set_alredy_moving(self):
+    def set_already_moving(self):
         for y in range(self.ocean.num_rows):
             for x in range(self.ocean.num_cols):
                 if type(self.ocean.cells[y][x]) == type(self):
