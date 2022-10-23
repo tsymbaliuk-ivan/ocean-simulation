@@ -24,9 +24,7 @@ class Cell:
             self.ocean.cells[new_y][new_x].x = new_x
             self.ocean.cells[new_y][new_x].y = new_y
 
-            return True
 
-        return False
 
     def get_cell_at(self, a_coord):
         """Возвращает ячейку с координатами a_coord в массиве cells из ocean"""

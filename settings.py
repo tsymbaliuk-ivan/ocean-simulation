@@ -31,3 +31,6 @@ class Settings:
 
         self.time_to_feed = 6
         self.time_to_reproduce = 6
+
+        self.time_to_reproduce_for_predator = 3
+        self.time_for_life_prey = 12

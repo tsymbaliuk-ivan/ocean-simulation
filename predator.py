@@ -1,21 +1,21 @@
 from prey import Prey
 import random
+from cell import Cell
 
-
-class Predator(Prey):
+class Predator(Cell):
     """Subclass Prey, predator, can move, breed, eat prey"""
 
     def __init__(self, ocean, settings, x, y):
         super().__init__(ocean, settings, x, y)
         self.time_to_feed = settings.time_to_feed
-        self.time_to_reproduce = settings.time_to_reproduce
+        self.time_to_reproduce = settings.time_to_reproduce_for_predator
         self.image = settings.image_for_predator
         self.number_of_element = settings.predators_number
 
     def __repr__(self):
         return self.settings.image_for_predator
 
-    def __find_nearest_preys_if_exist(self):
+    def find_nearest_preys_if_exist(self):
 
         all_neighbors = [self.west(), self.north(), self.south(), self.east()]
         preys = []
@@ -25,7 +25,7 @@ class Predator(Prey):
 
         return preys
 
-    def __eat_nearest_prey(self, preys):
+    def eat_nearest_prey(self, preys):
 
 
         prey = random.choice(preys)
@@ -58,27 +58,26 @@ class Predator(Prey):
             self.ocean.cells[self.y][self.x] = None
 
         else:
-            nearest_preys = self.__find_nearest_preys_if_exist()
-            if nearest_preys:
-                print(f'predator x = {self.x}, y = {self.y}')
-                self.__eat_nearest_prey(nearest_preys)
-                print(f'eat nearest prey x = {self.x}, y = {self.y}')
-
-            else:
-                print(f'predator x = {self.x}, y = {self.y}')
-                print('only move')
-
-                if self.already_moving == False:
-                    old_x = self.x
-                    old_y = self.y
-                    super().process()
-                    print(f'coord after move x = {self.x}, y = {self.y}')
-
-                    if self.time_to_reproduce <= 0 and self.ocean.cells[old_y][old_x] is None:
-                        self.ocean.cells[old_y][old_x] = Predator(self.ocean, self.settings, old_x, old_y)
-                        self.time_to_reproduce = 6
+            if self.already_moving == False:
+                nearest_preys = self.find_nearest_preys_if_exist()
+                if nearest_preys:
+                    print(f'predator x = {self.x}, y = {self.y}')
+                    self.eat_nearest_prey(nearest_preys)
+                    print(f'eat nearest prey x = {self.x}, y = {self.y}')
                 else:
-                    pass
+                    print(f'predator x = {self.x}, y = {self.y}')
+                    print('only move')
+
+                    if self.already_moving == False:
+                        old_x = self.x
+                        old_y = self.y
+                        super().process()
+                        print(f'coord after move x = {self.x}, y = {self.y}')
+
+                        if self.time_to_reproduce <= 0 and self.ocean.cells[old_y][old_x] is None:
+                            self.ocean.cells[old_y][old_x] = Predator(self.ocean, self.settings, old_x, old_y)
+                            self.time_to_reproduce = self.settings.time_to_reproduce
+
 
         self.already_moving = True
         print(f'time_to_feed  = {self.time_to_feed}')
