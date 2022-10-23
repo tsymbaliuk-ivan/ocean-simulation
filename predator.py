@@ -76,7 +76,7 @@ class Predator(Prey):
             #     print('only move')
             #     super().process()
             #     print(f'coord after move x = {self.x}, y = {self.y}')
-
+        self.already_moving = True
         print(f'time_to_feed  = {self.time_to_feed}')
 
     def set_predator_is_hungry(self):
@@ -84,6 +84,12 @@ class Predator(Prey):
             for x in range(self.ocean.num_cols):
                 if type(self.ocean.cells[y][x]) == type(self):
                     self.ocean.cells[y][x].is_hungry = True
+
+    def set_alredy_moving(self):
+        for y in range(self.ocean.num_rows):
+            for x in range(self.ocean.num_cols):
+                if type(self.ocean.cells[y][x]) == type(self):
+                    self.ocean.cells[y][x].already_moving = False
 
     def east(self):
         """Возвращает ячейку, на востоке от данной, если она есть"""

@@ -23,7 +23,7 @@ class Cell:
             self.ocean.cells[new_y][new_x] = self
             self.ocean.cells[new_y][new_x].x = new_x
             self.ocean.cells[new_y][new_x].y = new_y
-            self.already_moving = True
+
             return True
 
         return False

@@ -71,32 +71,17 @@ class Ocean:
         for y in range(self.num_rows):
             for x in range(self.num_cols):
                 if self.cells[y][x] is not None and type(self.cells[y][x]) is not Obstacle and \
-                        self.cells[y][x].is_hungry:
+                        not self.cells[y][x].already_moving and self.cells[y][x].is_hungry:
                     self.cells[y][x].process()
         self.predator.set_predator_is_hungry()
+        self.predator.set_alredy_moving()
         self.display_cells()
 
-    # def __process(self):
-    #     for y in range(self.num_rows):
-    #         for x in range(self.num_cols):
-    #             if type(self.cells[y][x]) == type(Prey): # or type(self.cells[y][x]) == Predator:
-    #                 self.cells[y][x].process()
-    #                 self.cells[y][x].time_to_reproduce -= 1
-    #             elif type(self.cells[y][x]) == Predator and self.cells[y][x].is_hungry:
-    #                 self.cells[y][x].process()
-    #     self.predator.set_predator_is_hungry()
-    #     self.display_cells()
-
-    # def get_coord_for_all_prey(self):
-    #     for x in range(self.num_rows):
-    #         for y in range(len(self.cells[x])):
-    #             if type(self.cells[x][y]) == Prey:
-    #                 print(f'{self.cells[x][y]} x = {self.cells[x][y].x}, y = {self.cells[x][y].y}')
 
     def run(self):
         """Запрашивает у пользователя количество итераций и начинает моделирование"""
         # number_iteration = UI.get_number_iteration()
-        number_iteration = 10
+        number_iteration = 20
         self.__create_ocean()
         self.__add_inhabitants()
         self.display_stats()

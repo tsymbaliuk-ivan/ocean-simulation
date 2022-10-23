@@ -57,7 +57,8 @@ class GeneratorXY:
             new_x = randrange(cell.x - 1, cell.x + 1)
             new_y = randrange(cell.y - 1, cell.y + 1)
         # переделать без проверок
-        if new_x == cell.x and new_y == cell.y:
-            GeneratorXY.generate_new_coord(cell)
+        for i in range(4):
+            if new_x == cell.x and new_y == cell.y:
+                GeneratorXY.generate_new_coord(cell)
 
         return new_x, new_y
