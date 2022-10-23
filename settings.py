@@ -29,7 +29,7 @@ class Settings:
         self.image_for_prey = '\033[34m🐟\033[0m'
         self.image_for_predator = '\033[31m🦈\033[0m'
 
-        self.time_to_feed = 8
-        self.time_to_reproduce_for_prey = 8
-        self.time_to_reproduce_for_predator = 6
-        self.time_for_life_prey = 12
+        self.time_to_feed = 6
+        self.time_to_reproduce_for_prey = 6
+        self.time_to_reproduce_for_predator = 8
+        self.time_for_life_prey = 4

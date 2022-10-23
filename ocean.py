@@ -78,6 +78,12 @@ class Ocean:
 
         self.display_cells()
 
+        for x in range(self.num_rows):
+            for y in range(len(self.cells[x])):
+                if type(self.cells[x][y]) == Prey:
+                    print(self.cells[x][y].marker)
+
+
 
     def run(self):
         """Запрашивает у пользователя количество итераций и начинает моделирование"""
@@ -94,6 +100,12 @@ class Ocean:
 
         self.display_stats()
 
-    def initialize(self):
+    def initialize_prey(self, x, y):
         """init prey, predator, obstacle"""
-        pass
+        prey = Prey(self, self.settings, x, y)
+        return prey
+
+    def initialize_predator(self, x, y):
+        """init prey, predator, obstacle"""
+        predator = Predator(self, self.settings, x, y)
+        return predator

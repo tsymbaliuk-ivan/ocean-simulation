@@ -1,4 +1,3 @@
-from prey import Prey
 import random
 from cell import Cell
 
@@ -20,7 +19,7 @@ class Predator(Cell):
         all_neighbors = [self.west(), self.north(), self.south(), self.east()]
         preys = []
         for neighbor in all_neighbors:
-            if type(neighbor) == Prey:
+            if type(neighbor) == type(self.ocean.prey):
                 preys.append(neighbor)
 
         return preys
@@ -51,34 +50,39 @@ class Predator(Cell):
     def process(self):
         """Проверяет time_to_feed, (если = 0 - смерть), иначе пытается сьесть добычу, в противном случае,
         перемещается в пустую ячейку, уменьшает time_to_reproduce на 1"""
-        self.time_to_feed -= 1
-        self.time_to_reproduce -= 1
 
-        if self.time_to_feed <= 0:
-            self.ocean.cells[self.y][self.x] = None
-        elif self.already_moving == False:
-            # Predator еще не ел и не двигался
-            nearest_preys = self.find_nearest_preys_if_exist()   # найти жертву, если такая есть
-            if nearest_preys:
-                print(f'predator x = {self.x}, y = {self.y}')
-                self.eat_nearest_prey(nearest_preys)
-                print(f'eat nearest prey x = {self.x}, y = {self.y}')
-            else:
-                print(f'predator x = {self.x}, y = {self.y}')
-                print('only move')
+        super().process(self)
 
-                old_x = self.x
-                old_y = self.y
-                super().process()  # жертв нет, только двигаться
-                print(f'coord after move x = {self.x}, y = {self.y}')
-                # если время пришло, пора размножатся, если получиться
-                if self.time_to_reproduce <= 0 and self.ocean.cells[old_y][old_x] is None:
-                    self.ocean.cells[old_y][old_x] = Predator(self.ocean, self.settings, old_x, old_y)
-                    self.time_to_reproduce = self.settings.time_to_reproduce_for_predator
-
-        self.already_moving = True
-        print(f'time_to_feed  = {self.time_to_feed}')
-        print(f'time_to_reproduce = {self.time_to_reproduce}')
+        # self.time_to_feed -= 1
+        # self.time_to_reproduce -= 1
+        # old_x = self.x
+        # old_y = self.y
+        #
+        # if self.time_to_feed <= 0:
+        #     self.ocean.cells[self.y][self.x] = None
+        #
+        # elif self.already_moving == False:
+        #     # Predator еще не ел и не двигался
+        #     nearest_preys = self.find_nearest_preys_if_exist()   # найти жертву, если такая есть
+        #     if nearest_preys:
+        #         print(f'predator x = {self.x}, y = {self.y}')
+        #         self.eat_nearest_prey(nearest_preys)
+        #         print(f'eat nearest prey x = {self.x}, y = {self.y}')
+        #     else:
+        #         print(f'predator x = {self.x}, y = {self.y}')
+        #         print('only move')
+        #
+        #
+        #         super().process()  # жертв нет, только двигаться
+        #         print(f'coord after move x = {self.x}, y = {self.y}')
+        #         # если время пришло, пора размножатся, если получиться
+        #         if self.time_to_reproduce <= 0 and self.ocean.cells[old_y][old_x] is None:
+        #             self.ocean.cells[old_y][old_x] = Predator(self.ocean, self.settings, old_x, old_y)
+        #             self.time_to_reproduce = self.settings.time_to_reproduce_for_predator
+        #
+        # self.already_moving = True
+        # print(f'time_to_feed  = {self.time_to_feed}')
+        # print(f'time_to_reproduce = {self.time_to_reproduce}')
 
     def set_predator_is_hungry(self):
         for y in range(self.ocean.num_rows):
