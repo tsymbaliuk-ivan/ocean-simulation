@@ -26,12 +26,24 @@ class UI:
         print('\033[34m⥐\033[0m\t' * ocean.num_cols)
 
     @staticmethod
-    def display_stats(ocean):
+    def display_stats(ocean, iteration):
         return (print(f'preys = {ocean.prey_number}, predators = {ocean.predators_number}, '
-                f'obstacles = {ocean.obstacles_number}'))
+                f'obstacles = {ocean.obstacles_number}'), print(f'iteration {iteration}'))
+
 
     @staticmethod
     def print_border(ocean):
         print()
         print('⁕\t' * ocean.num_cols, '⁕\t')
         print()
+
+    @staticmethod
+    def finish_simulation(ocean, iteration):
+        print(f'finished at iteration {iteration} -', end=' ')
+
+        if ocean.predators_number <= 0:
+            print('all predators are dead')
+        elif ocean.prey_number <= 0:
+            print('all the preys are dead')
+        else:
+            print('balance is maintained')

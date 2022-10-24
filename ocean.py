@@ -76,7 +76,9 @@ class Ocean:
         """Print all cells"""
         UI.print_border(self)
         UI.show_cells(self)
-        UI.display_stats(self)
+
+    def display_stats(self, i):
+        UI.display_stats(self, i)
 
     def __process(self):
         for y in range(self.num_rows):
@@ -90,14 +92,19 @@ class Ocean:
     def run(self):
         """Запрашивает у пользователя количество итераций и начинает моделирование"""
         # number_iteration = UI.get_number_iteration()
-        number_iteration = 30
+        number_iteration = 110
         self.__create_ocean()
         self.__add_inhabitants()
         self.display_screen()
-
+        self.display_stats(0)
         for i in range(number_iteration):
             self.__process()
-            self.display_screen()
+            # self.display_screen()
+            # self.display_stats(i)
+            if self.prey_number == 0 or self.predators_number == 0:
+                UI.finish_simulation(self, i)
+                break
+        self.display_screen()
 
     def initialize_prey(self, x, y):
         """init prey, predator, obstacle"""
