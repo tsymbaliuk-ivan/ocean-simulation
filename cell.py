@@ -2,6 +2,7 @@ from generator_x_y import GeneratorXY
 # from prey import Prey
 # from predator import Predator
 
+
 class Cell:
     """Cell - superclass for all kinds of cells that are in the ocean"""
 
@@ -10,15 +11,15 @@ class Cell:
         self.y = y
         self.ocean = ocean
         self.settings = settings
-        self.is_hungry = True
-        self.already_moving = False
+        self.is_hungry = True  # надо знать, ел ли predator на итерации или нет
+        self.already_moving = False  # нам надо знать, двигалась слетка на итерации или нет
 
     def __repr__(self):
+        """Return None"""
         return
 
     def make_a_move(self):
-        """Перемещает в соседнюю ячейку, используя определенные правила"""
-
+        """Moves to cell using certain rules"""
         new_x, new_y = GeneratorXY.generate_new_coord(self)
         if self.ocean.cells[new_y][new_x] is None:
             self.ocean.cells[self.y][self.x] = None

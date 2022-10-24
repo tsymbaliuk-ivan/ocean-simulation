@@ -15,6 +15,7 @@ class Ocean:
         self.prey_number = settings.prey_number
         self.predators_number = settings.predators_number
         self.obstacles_number = settings.obstacles_number
+        self.number_iteration = settings.number_iteration
         self.prey_ = Prey  # (self, self.settings, 0, 0)
         self.predator_ = Predator  #(self, self.settings, 0, 0)
         self.obstacle_ = Obstacle  #(self, self.settings, 0, 0)
@@ -29,27 +30,6 @@ class Ocean:
             self.cells.append([])
             for x in range(self.num_cols):
                 self.cells[y].append(None)
-
-    # def __add_inhabitants(self):
-    #     """Add inhabitants of ocean: obstacles, prey, predator"""
-    #     inhabitants = {Obstacle: self.obstacle,
-    #                    Prey: self.prey,
-    #                    Predator: self.predator}
-    #
-    #     for key, value in inhabitants.items():
-    #         self.__add_element(value, key)
-    #
-    # def __add_element(self, ocean_element, ocean_elements_type):
-    #     """Add inhabitant to ocean in free cells"""
-    #     i = 0
-    #     while i != ocean_element.number_of_element:
-    #         x = randint(0, self.num_cols - 1)
-    #         y = randint(0, self.num_rows - 1)
-    #         if self.cells[y][x] is None:
-    #             self.cells[y][x] = ocean_elements_type(self, self.settings, x, y)
-    #         else:
-    #             continue
-    #         i += 1
 
     def __add_inhabitants(self):
         """Add inhabitants of ocean: obstacles, prey, predator"""
@@ -81,6 +61,10 @@ class Ocean:
         UI.display_stats(self, i)
 
     def __process(self):
+        """Аor each cell, if is not None, and if is a predator or prey, and is not hungry (not eat in this iteration),
+        execute the process,
+        set for all predator is_hungry, already_moving"""
+
         for y in range(self.num_rows):
             for x in range(self.num_cols):
                 if self.cells[y][x] is not None and type(self.cells[y][x]) is not Obstacle and \
@@ -90,13 +74,13 @@ class Ocean:
         self.predator.set_already_moving()
 
     def run(self):
-        """Запрашивает у пользователя количество итераций и начинает моделирование"""
-        # number_iteration = UI.get_number_iteration()
-        number_iteration = 110
+        """Starts modeling"""
+        number_iteration = self.settings.number_iteration
         self.__create_ocean()
         self.__add_inhabitants()
         self.display_screen()
-        self.display_stats(0)
+        # self.display_stats(0)
+        max_iteration = 0
         for i in range(number_iteration):
             self.__process()
             # self.display_screen()
@@ -104,14 +88,9 @@ class Ocean:
             if self.prey_number == 0 or self.predators_number == 0:
                 UI.finish_simulation(self, i)
                 break
+            max_iteration += 1
+
         self.display_screen()
 
-    def initialize_prey(self, x, y):
-        """init prey, predator, obstacle"""
-        prey = Prey(self, self.settings, x, y)
-        return prey
-
-    def initialize_predator(self, x, y):
-        """init prey, predator, obstacle"""
-        predator = Predator(self, self.settings, x, y)
-        return predator
+        print(f'max_iteration = {max_iteration}')
+        self.display_stats(max_iteration)

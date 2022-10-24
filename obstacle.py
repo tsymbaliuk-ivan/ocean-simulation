@@ -3,7 +3,7 @@ from cell import Cell
 
 class Obstacle(Cell):
     """Ocean Obstacle, cannot move"""
-    def __init__(self, ocean, settings, x=0, y=0):
+    def __init__(self, ocean, settings, x, y):
         super().__init__(ocean, settings, x, y)
         self.image = settings.image_for_obstacle
         self.number_of_element = settings.obstacles_number
