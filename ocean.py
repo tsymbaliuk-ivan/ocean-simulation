@@ -15,6 +15,10 @@ class Ocean:
         self.prey_number = settings.prey_number
         self.predators_number = settings.predators_number
         self.obstacles_number = settings.obstacles_number
+        self.prey_ = Prey  # (self, self.settings, 0, 0)
+        self.predator_ = Predator  #(self, self.settings, 0, 0)
+        self.obstacle_ = Obstacle  #(self, self.settings, 0, 0)
+
         self.prey = Prey(self, self.settings, 0, 0)
         self.predator = Predator(self, self.settings, 0, 0)
         self.obstacle = Obstacle(self, self.settings, 0, 0)
@@ -25,6 +29,27 @@ class Ocean:
             self.cells.append([])
             for x in range(self.num_cols):
                 self.cells[y].append(None)
+
+    # def __add_inhabitants(self):
+    #     """Add inhabitants of ocean: obstacles, prey, predator"""
+    #     inhabitants = {Obstacle: self.obstacle,
+    #                    Prey: self.prey,
+    #                    Predator: self.predator}
+    #
+    #     for key, value in inhabitants.items():
+    #         self.__add_element(value, key)
+    #
+    # def __add_element(self, ocean_element, ocean_elements_type):
+    #     """Add inhabitant to ocean in free cells"""
+    #     i = 0
+    #     while i != ocean_element.number_of_element:
+    #         x = randint(0, self.num_cols - 1)
+    #         y = randint(0, self.num_rows - 1)
+    #         if self.cells[y][x] is None:
+    #             self.cells[y][x] = ocean_elements_type(self, self.settings, x, y)
+    #         else:
+    #             continue
+    #         i += 1
 
     def __add_inhabitants(self):
         """Add inhabitants of ocean: obstacles, prey, predator"""
@@ -49,6 +74,8 @@ class Ocean:
 
     def display_cells(self):
         """Print all cells"""
+        UI.print_border(self)
+
         UI.show_cells(self)
 
     def display_stats(self):
@@ -78,12 +105,6 @@ class Ocean:
 
         self.display_cells()
 
-        for x in range(self.num_rows):
-            for y in range(len(self.cells[x])):
-                if type(self.cells[x][y]) == Prey:
-                    print(self.cells[x][y].marker)
-
-
 
     def run(self):
         """Запрашивает у пользователя количество итераций и начинает моделирование"""
@@ -95,9 +116,9 @@ class Ocean:
         self.display_cells()
 
         for i in range(number_iteration):
-            UI.print_border(self)
             self.__process()
 
+        self.display_cells()
         self.display_stats()
 
     def initialize_prey(self, x, y):

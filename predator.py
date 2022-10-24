@@ -1,8 +1,9 @@
 import random
 from cell import Cell
+from prey import Prey
 
 class Predator(Cell):
-    """Subclass Prey, predator, can move, breed, eat prey"""
+    """Subclass Cell, predator, can move, breed, eat prey"""
 
     def __init__(self, ocean, settings, x, y):
         super().__init__(ocean, settings, x, y)
@@ -12,117 +13,91 @@ class Predator(Cell):
         self.number_of_element = settings.predators_number
 
     def __repr__(self):
+        """Return image_for_predator"""
         return self.settings.image_for_predator
 
-    def find_nearest_preys_if_exist(self):
-
+    def find_nearest_preys_if_exist(self) -> list:
+        """Find nearest preys if exist"""
         all_neighbors = [self.west(), self.north(), self.south(), self.east()]
         preys = []
         for neighbor in all_neighbors:
-            if type(neighbor) == type(self.ocean.prey):
+            if isinstance(neighbor, Prey):
                 preys.append(neighbor)
 
         return preys
 
     def eat_nearest_prey(self, preys):
-
-
+        """Eat nearest prey, random choice prey from preys list.
+        Increase time to feed, set predator is not hungry """
         prey = random.choice(preys)
-        # сохраню старые координаты нашего текущего predator
-        old_x = self.x
+        old_x = self.x  # сохраню старые координаты нашего текущего predator
         old_y = self.y
         self.x = prey.x
         self.y = prey.y
-        # поместим predator на место той рыбки, которую скушали
-        self.ocean.cells[prey.y][prey.x] = self
-        # освободим старое место
-        self.ocean.cells[old_y][old_x] = None
-        # присвоим новые координаты для нашего predator, которые были у жертвы
-        # self.x = prey.x
-        # self.y = prey.y
-        # мы поели, значит не голодны до конца дня
-        self.is_hungry = False
+        self.ocean.cells[prey.y][prey.x] = self  # поместим predator на место той рыбки, которую скушали
+        self.ocean.cells[old_y][old_x] = None  # освободим старое место
+        self.is_hungry = False  # мы поели, значит не голодны до конца дня
         self.time_to_feed += 1
 
-        # print('ate')
-        # print(f'predator x = {self.x}, y = {self.y}')
-
     def process(self):
-        """Проверяет time_to_feed, (если = 0 - смерть), иначе пытается сьесть добычу, в противном случае,
-        перемещается в пустую ячейку, уменьшает time_to_reproduce на 1"""
+        """Decrements time_to_feed, time_to_reproduce.
+        Checks time to feed, (if = 0 - death), otherwise tries to eat prey, otherwise,
+        moves to an empty cell. Checks already_moving, (if <= 0 - pass), set already_moving - True.
+        And try to reproduce itself"""
+        self.time_to_feed -= 1
+        self.time_to_reproduce -= 1
+        old_x = self.x
+        old_y = self.y
 
-        super().process(self)
+        if self.time_to_feed <= 0:
+            self.ocean.cells[self.y][self.x] = None
 
-        # self.time_to_feed -= 1
-        # self.time_to_reproduce -= 1
-        # old_x = self.x
-        # old_y = self.y
-        #
-        # if self.time_to_feed <= 0:
-        #     self.ocean.cells[self.y][self.x] = None
-        #
-        # elif self.already_moving == False:
-        #     # Predator еще не ел и не двигался
-        #     nearest_preys = self.find_nearest_preys_if_exist()   # найти жертву, если такая есть
-        #     if nearest_preys:
-        #         print(f'predator x = {self.x}, y = {self.y}')
-        #         self.eat_nearest_prey(nearest_preys)
-        #         print(f'eat nearest prey x = {self.x}, y = {self.y}')
-        #     else:
-        #         print(f'predator x = {self.x}, y = {self.y}')
-        #         print('only move')
-        #
-        #
-        #         super().process()  # жертв нет, только двигаться
-        #         print(f'coord after move x = {self.x}, y = {self.y}')
-        #         # если время пришло, пора размножатся, если получиться
-        #         if self.time_to_reproduce <= 0 and self.ocean.cells[old_y][old_x] is None:
-        #             self.ocean.cells[old_y][old_x] = Predator(self.ocean, self.settings, old_x, old_y)
-        #             self.time_to_reproduce = self.settings.time_to_reproduce_for_predator
-        #
-        # self.already_moving = True
-        # print(f'time_to_feed  = {self.time_to_feed}')
-        # print(f'time_to_reproduce = {self.time_to_reproduce}')
+        elif self.already_moving is False:  # Predator еще не ел и не двигался
+            nearest_preys = self.find_nearest_preys_if_exist()  # найти жертву, если такая есть
+            if nearest_preys:
+                self.eat_nearest_prey(nearest_preys)
+            else:
+                super().make_a_move()  # жертв нет, только двигаться
+                super().try_to_reproduce(self, old_x, old_y)
+                # self.try_to_reproduce(old_x, old_y)  # если время пришло, пора размножатся, если получиться
+            self.already_moving = True
+
+    # def try_to_reproduce(self, old_x, old_y):
+    #     """Reproduce yourself to the cell with coordinates old_x, old_y in the cells array"""
+    #     if self.time_to_reproduce <= 0 and self.ocean.cells[old_y][old_x] is None:
+    #         self.ocean.cells[old_y][old_x] = Predator(self.ocean, self.settings, old_x, old_y)
+    #         self.time_to_reproduce = self.settings.time_to_reproduce_for_predator
 
     def set_predator_is_hungry(self):
+        """Set all predator  is_hungry - True"""
         for y in range(self.ocean.num_rows):
             for x in range(self.ocean.num_cols):
                 if type(self.ocean.cells[y][x]) == type(self):
                     self.ocean.cells[y][x].is_hungry = True
 
     def set_already_moving(self):
+        """Set all predator  already_moving - False"""
         for y in range(self.ocean.num_rows):
             for x in range(self.ocean.num_cols):
                 if type(self.ocean.cells[y][x]) == type(self):
                     self.ocean.cells[y][x].already_moving = False
 
     def east(self):
-        """Возвращает ячейку, на востоке от данной, если она есть"""
+        """Returns the cell east of the given one, if any."""
         if self.x + 1 < self.ocean.num_cols:
             return self.ocean.cells[self.y][self.x + 1]
 
     def north(self):
-        """Возвращает ячейку, на севере от данной"""
+        """Returns the cell north of the given"""
         if self.y - 1 >= 0:
             return self.ocean.cells[self.y - 1][self.x]
 
     def south(self):
-        """Возвращает ячейку, на юге от данной"""
+        """Returns the cell south of the given"""
         if self.y + 1 < self.ocean.num_rows:
             return self.ocean.cells[self.y + 1][self.x]
 
     def west(self):
-        """Возвращает ячейку, на западе от данной"""
+        """Returns the cell west of the given"""
         if self.x - 1 >= 0:
             return self.ocean.cells[self.y][self.x - 1]
-
-
-    def get_coord_for_all_predator(self):
-        for x in range(self.ocean.num_rows):
-            for y in range(len(self.ocean.cells[x])):
-                if type(self.ocean.cells[x][y]) == Predator:
-                    print(f'{self.ocean.cells[x][y]} x = {self.ocean.cells[x][y].x}, y = {self.ocean.cells[x][y].y}')
-
-    def reproduce(self, an_offset):
-        """Воспроизвести себя в ячейку с координатами an_offset в массиве cells"""
-        pass

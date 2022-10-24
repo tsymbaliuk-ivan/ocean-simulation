@@ -1,4 +1,6 @@
 from generator_x_y import GeneratorXY
+# from prey import Prey
+# from predator import Predator
 
 class Cell:
     """Cell - superclass for all kinds of cells that are in the ocean"""
@@ -14,50 +16,25 @@ class Cell:
     def __repr__(self):
         return
 
-    def process(self, fish):
-        """Перемещает в соседнюю ячейку, используя определенные правила (в зависимости от подкласса)"""
+    def make_a_move(self):
+        """Перемещает в соседнюю ячейку, используя определенные правила"""
 
-        fish.time_to_reproduce -= 1
-        fish.time_to_feed -= 1
-        old_x = fish.x
-        old_y = fish.y
+        new_x, new_y = GeneratorXY.generate_new_coord(self)
+        if self.ocean.cells[new_y][new_x] is None:
+            self.ocean.cells[self.y][self.x] = None
+            self.ocean.cells[new_y][new_x] = self
+            self.ocean.cells[new_y][new_x].x = new_x
+            self.ocean.cells[new_y][new_x].y = new_y
 
-        if type(fish) == type(self.ocean.predator):
-            if fish.already_moving == False:
-                nearest_preys = fish.find_nearest_preys_if_exist()
-                if nearest_preys:
-                    fish.eat_nearest_prey(nearest_preys)
-                else:
-                    new_x, new_y = GeneratorXY.generate_new_coord(self)
-                    if self.ocean.cells[new_y][new_x] is None:
-                        self.ocean.cells[fish.y][fish.x] = None
-                        self.ocean.cells[new_y][new_x] = fish
-                        self.ocean.cells[new_y][new_x].x = new_x
-                        self.ocean.cells[new_y][new_x].y = new_y
-                    if fish.time_to_reproduce <= 0 and self.ocean.cells[old_y][old_x] is None:
-                        self.ocean.cells[old_y][old_x] = self.ocean.initialize_predator(old_x, old_y)
-                        fish.time_to_reproduce = self.settings.time_to_reproduce_for_predator
-
-        self.already_moving = True
-        if type(fish) == type(self.ocean.prey):
-            fish.marker += 1
-            print(fish.marker)
-            new_x, new_y = GeneratorXY.generate_new_coord(self)
-            if self.ocean.cells[new_y][new_x] is None:
-                self.ocean.cells[fish.y][fish.x] = None
-                self.ocean.cells[new_y][new_x] = fish
-                self.ocean.cells[new_y][new_x].x = new_x
-                self.ocean.cells[new_y][new_x].y = new_y
-
-            if fish.time_to_feed <= 0:
-                self.ocean.cells[fish.y][fish.x] = None
-
-            if fish.time_to_reproduce <= 0 and self.ocean.cells[old_y][old_x] == None:
-                self.ocean.cells[old_y][old_x] = self.ocean.initialize_prey(old_x, old_y)
-                fish.time_to_reproduce = fish.settings.time_to_reproduce_for_prey
-                fish.marker += 1
-
-
+    def try_to_reproduce(self, fish, old_x, old_y):
+        """Reproduce yourself to the cell with coordinates old_x, old_y in the cells array"""
+        if fish.time_to_reproduce <= 0 and self.ocean.cells[old_y][old_x] is None:
+            if isinstance(fish, self.ocean.prey_):
+                self.ocean.cells[old_y][old_x] = self.ocean.prey_(self.ocean, self.settings, old_x, old_y)
+                fish.time_to_reproduce = self.settings.time_to_reproduce_for_prey
+            elif isinstance(fish, self.ocean.predator_):
+                self.ocean.cells[old_y][old_x] = self.ocean.predator_(self.ocean, self.settings, old_x, old_y)
+                fish.time_to_reproduce = self.settings.time_to_reproduce_for_predator
 
     def get_cell_at(self, a_coord):
         """Возвращает ячейку с координатами a_coord в массиве cells из ocean"""
@@ -82,3 +59,5 @@ class Cell:
     def display(self):
         """Выводит изображение по соответствующему смещению"""
         pass
+
+
