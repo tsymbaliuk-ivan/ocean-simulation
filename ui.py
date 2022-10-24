@@ -26,8 +26,9 @@ class UI:
         print('\033[34m⥐\033[0m\t' * ocean.num_cols)
 
     @staticmethod
-    def display_stats(preys: list, predators: list, obstacles: list,):
-        print(f'preys = {len(preys)}, predators = {len(predators)}, obstacles = {len(obstacles)}')
+    def display_stats(ocean):
+        return (print(f'preys = {ocean.prey_number}, predators = {ocean.predators_number}, '
+                f'obstacles = {ocean.obstacles_number}'))
 
     @staticmethod
     def print_border(ocean):

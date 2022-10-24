@@ -51,22 +51,18 @@ class Predator(Cell):
 
         if self.time_to_feed <= 0:
             self.ocean.cells[self.y][self.x] = None
+            self.ocean.predators_number -= 1
 
         elif self.already_moving is False:  # Predator еще не ел и не двигался
             nearest_preys = self.find_nearest_preys_if_exist()  # найти жертву, если такая есть
             if nearest_preys:
                 self.eat_nearest_prey(nearest_preys)
+                self.ocean.prey_number -= 1
             else:
                 super().make_a_move()  # жертв нет, только двигаться
                 super().try_to_reproduce(self, old_x, old_y)
                 # self.try_to_reproduce(old_x, old_y)  # если время пришло, пора размножатся, если получиться
             self.already_moving = True
-
-    # def try_to_reproduce(self, old_x, old_y):
-    #     """Reproduce yourself to the cell with coordinates old_x, old_y in the cells array"""
-    #     if self.time_to_reproduce <= 0 and self.ocean.cells[old_y][old_x] is None:
-    #         self.ocean.cells[old_y][old_x] = Predator(self.ocean, self.settings, old_x, old_y)
-    #         self.time_to_reproduce = self.settings.time_to_reproduce_for_predator
 
     def set_predator_is_hungry(self):
         """Set all predator  is_hungry - True"""
@@ -101,3 +97,9 @@ class Predator(Cell):
         """Returns the cell west of the given"""
         if self.x - 1 >= 0:
             return self.ocean.cells[self.y][self.x - 1]
+
+    # def try_to_reproduce(self, old_x, old_y):
+    #     """Reproduce yourself to the cell with coordinates old_x, old_y in the cells array"""
+    #     if self.time_to_reproduce <= 0 and self.ocean.cells[old_y][old_x] is None:
+    #         self.ocean.cells[old_y][old_x] = Predator(self.ocean, self.settings, old_x, old_y)
+    #         self.time_to_reproduce = self.settings.time_to_reproduce_for_predator

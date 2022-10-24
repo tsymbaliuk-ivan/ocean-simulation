@@ -72,27 +72,11 @@ class Ocean:
                 continue
             i += 1
 
-    def display_cells(self):
+    def display_screen(self):
         """Print all cells"""
         UI.print_border(self)
-
         UI.show_cells(self)
-
-    def display_stats(self):
-        """Обновляет отображаемый номер итерации, количество преград, хищников и добычи"""
-        preys = []
-        obstacles = []
-        predators = []
-        for x in range(self.num_rows):
-            for y in range(len(self.cells[x])):
-                if type(self.cells[x][y]) == Prey:
-                    preys.append(self.cells[x][y])
-                if type(self.cells[x][y]) == Predator:
-                    predators.append(self.cells[x][y])
-                if type(self.cells[x][y]) == Obstacle:
-                    obstacles.append(self.cells[x][y])
-
-        UI.display_stats(preys, predators, obstacles)
+        UI.display_stats(self)
 
     def __process(self):
         for y in range(self.num_rows):
@@ -103,23 +87,17 @@ class Ocean:
         self.predator.set_predator_is_hungry()
         self.predator.set_already_moving()
 
-        self.display_cells()
-
-
     def run(self):
         """Запрашивает у пользователя количество итераций и начинает моделирование"""
         # number_iteration = UI.get_number_iteration()
         number_iteration = 30
         self.__create_ocean()
         self.__add_inhabitants()
-        self.display_stats()
-        self.display_cells()
+        self.display_screen()
 
         for i in range(number_iteration):
             self.__process()
-
-        self.display_cells()
-        self.display_stats()
+            self.display_screen()
 
     def initialize_prey(self, x, y):
         """init prey, predator, obstacle"""
