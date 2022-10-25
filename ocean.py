@@ -10,15 +10,9 @@ class Ocean:
 
     def __init__(self, settings):
         self.settings = settings
-        self.num_rows = settings.num_rows
-        self.num_cols = settings.num_cols
-        self.prey_number = settings.prey_number
-        self.predators_number = settings.predators_number
-        self.obstacles_number = settings.obstacles_number
-        self.number_iteration = settings.number_iteration
-        self.prey_ = Prey  # (self, self.settings, 0, 0)
-        self.predator_ = Predator  #(self, self.settings, 0, 0)
-        self.obstacle_ = Obstacle  #(self, self.settings, 0, 0)
+        self.prey_ = Prey
+        self.predator_ = Predator
+        self.obstacle_ = Obstacle
 
         self.prey = Prey(self, self.settings, 0, 0)
         self.predator = Predator(self, self.settings, 0, 0)
@@ -26,9 +20,9 @@ class Ocean:
 
     def __create_ocean(self):
         """Fill ocean with cells"""
-        for y in range(self.num_rows):
+        for y in range(self.settings.num_rows):
             self.cells.append([])
-            for x in range(self.num_cols):
+            for x in range(self.settings.num_cols):
                 self.cells[y].append(None)
 
     def __add_inhabitants(self):
@@ -44,8 +38,8 @@ class Ocean:
         """Add inhabitant to ocean in free cells"""
         i = 0
         while i != ocean_element.number_of_element:
-            x = randint(0, self.num_cols - 1)
-            y = randint(0, self.num_rows - 1)
+            x = randint(0, self.settings.num_cols - 1)
+            y = randint(0, self.settings.num_rows - 1)
             if self.cells[y][x] is None:
                 self.cells[y][x] = ocean_elements_type(self, self.settings, x, y)
             else:
@@ -60,13 +54,38 @@ class Ocean:
     def display_stats(self, i):
         UI.display_stats(self, i)
 
+    def find_neighbors(self, cell) -> list:
+        """Find nearest neighbors if exist"""
+        all_neighbors = [self.west(cell), self.north(cell), self.south(cell), self.east(cell)]
+        return all_neighbors
+
+    def east(self, cell):
+        """Returns the cell east of the given one, if any."""
+        if cell.x + 1 < self.settings.num_cols:
+            return self.cells[cell.y][cell.x + 1]
+
+    def north(self, cell):
+        """Returns the cell north of the given"""
+        if cell.y - 1 >= 0:
+            return self.cells[cell.y - 1][cell.x]
+
+    def south(self, cell):
+        """Returns the cell south of the given"""
+        if cell.y + 1 < self.settings.num_rows:
+            return self.cells[cell.y + 1][cell.x]
+
+    def west(self, cell):
+        """Returns the cell west of the given"""
+        if cell.x - 1 >= 0:
+            return self.cells[cell.y][cell.x - 1]
+
     def __process(self):
         """Аor each cell, if is not None, and if is a predator or prey, and is not hungry (not eat in this iteration),
         execute the process,
         set for all predator is_hungry, already_moving"""
 
-        for y in range(self.num_rows):
-            for x in range(self.num_cols):
+        for y in range(self.settings.num_rows):
+            for x in range(self.settings.num_cols):
                 if self.cells[y][x] is not None and type(self.cells[y][x]) is not Obstacle and \
                         not self.cells[y][x].already_moving and self.cells[y][x].is_hungry:
                     self.cells[y][x].process()
@@ -85,7 +104,7 @@ class Ocean:
             self.__process()
             # self.display_screen()
             # self.display_stats(i)
-            if self.prey_number == 0 or self.predators_number == 0:
+            if self.settings.prey_number == 0 or self.settings.predators_number == 0:
                 UI.finish_simulation(self, i)
                 break
             max_iteration += 1

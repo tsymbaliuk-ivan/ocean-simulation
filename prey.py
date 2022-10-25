@@ -27,7 +27,7 @@ class Prey(Cell):
 
         if self.time_to_feed <= 0:
             self.ocean.cells[self.y][self.x] = None
-            self.ocean.prey_number -= 1
+            self.settings.prey_number -= 1
         super().try_to_reproduce(self, old_x, old_y)
         # self.try_to_reproduce(old_x, old_y)
 

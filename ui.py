@@ -12,8 +12,8 @@ class UI:
         """Print all cells"""
 
         print('\t', end='')
-        print('\033[34m⥎\033[0m\t' * ocean.num_cols)
-        for x in range(ocean.num_rows):
+        print('\033[34m⥎\033[0m\t' * ocean.settings.num_cols)
+        for x in range(ocean.settings.num_rows):
             print('\033[34m⥑\033[0m\t', end='')
             for y in range(len(ocean.cells[x])):
                 if ocean.cells[x][y]:
@@ -23,27 +23,27 @@ class UI:
             print('\033[34m⥏\033[0m\t', end='')
             print()
         print('\t', end='')
-        print('\033[34m⥐\033[0m\t' * ocean.num_cols)
+        print('\033[34m⥐\033[0m\t' * ocean.settings.num_cols)
 
     @staticmethod
     def display_stats(ocean, iteration):
-        return (print(f'preys = {ocean.prey_number}, predators = {ocean.predators_number}, '
-                f'obstacles = {ocean.obstacles_number}'), print(f'iteration {iteration}'))
+        return (print(f'preys = {ocean.settings.prey_number}, predators = {ocean.settings.predators_number}, '
+                f'obstacles = {ocean.settings.obstacles_number}'), print(f'iteration {iteration}'))
 
 
     @staticmethod
     def print_border(ocean):
         print()
-        print('⁕\t' * ocean.num_cols, '⁕\t')
+        print('⁕\t' * ocean.settings.num_cols, '⁕\t')
         print()
 
     @staticmethod
     def finish_simulation(ocean, iteration):
         print(f'finished at iteration {iteration} -', end=' ')
 
-        if ocean.predators_number <= 0:
+        if ocean.settings.predators_number <= 0:
             print('all predators are dead')
-        elif ocean.prey_number <= 0:
+        elif ocean.settings.prey_number <= 0:
             print('all the preys are dead')
         else:
             print('balance is maintained')

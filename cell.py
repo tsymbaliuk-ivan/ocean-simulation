@@ -32,12 +32,12 @@ class Cell:
         if fish.time_to_reproduce <= 0 and self.ocean.cells[old_y][old_x] is None:
             if isinstance(fish, self.ocean.prey_):
                 self.ocean.cells[old_y][old_x] = self.ocean.prey_(self.ocean, self.settings, old_x, old_y)
-                self.ocean.prey_number += 1
+                self.settings.prey_number += 1
                 fish.time_to_reproduce = self.settings.time_to_reproduce_for_prey
 
             elif isinstance(fish, self.ocean.predator_):
                 self.ocean.cells[old_y][old_x] = self.ocean.predator_(self.ocean, self.settings, old_x, old_y)
-                self.ocean.predators_number += 1
+                self.settings.predators_number += 1
                 fish.time_to_reproduce = self.settings.time_to_reproduce_for_predator
 
     def get_cell_at(self, a_coord):

@@ -16,15 +16,25 @@ class Predator(Cell):
         """Return image_for_predator"""
         return self.settings.image_for_predator
 
-    def find_nearest_preys_if_exist(self) -> list:
+    def find_neighbor_preys_if_exist(self) -> list:
         """Find nearest preys if exist"""
-        all_neighbors = [self.west(), self.north(), self.south(), self.east()]
+        all_neighbors = self.ocean.find_neighbors(self)
         preys = []
         for neighbor in all_neighbors:
             if isinstance(neighbor, Prey):
                 preys.append(neighbor)
 
         return preys
+
+    # def find_neighbor_preys_if_exist(self) -> list:
+    #     """Find nearest preys if exist"""
+    #     all_neighbors = [self.west(), self.north(), self.south(), self.east()]
+    #     preys = []
+    #     for neighbor in all_neighbors:
+    #         if isinstance(neighbor, Prey):
+    #             preys.append(neighbor)
+    #
+    #     return preys
 
     def eat_nearest_prey(self, preys):
         """Eat nearest prey, random choice prey from preys list.
@@ -54,10 +64,10 @@ class Predator(Cell):
             self.ocean.predators_number -= 1
 
         elif self.already_moving is False:  # Predator еще не ел и не двигался
-            nearest_preys = self.find_nearest_preys_if_exist()  # найти жертву, если такая есть
+            nearest_preys = self.find_neighbor_preys_if_exist()  # найти жертву, если такая есть
             if nearest_preys:
                 self.eat_nearest_prey(nearest_preys)
-                self.ocean.prey_number -= 1
+                self.settings.prey_number -= 1
             else:
                 super().make_a_move()  # жертв нет, только двигаться
                 super().try_to_reproduce(self, old_x, old_y)
@@ -66,15 +76,15 @@ class Predator(Cell):
 
     def set_predator_is_hungry(self):
         """Set all predator  is_hungry - True"""
-        for y in range(self.ocean.num_rows):
-            for x in range(self.ocean.num_cols):
+        for y in range(self.settings.num_rows):
+            for x in range(self.settings.num_cols):
                 if type(self.ocean.cells[y][x]) == type(self):
                     self.ocean.cells[y][x].is_hungry = True
 
     def set_already_moving(self):
         """Set all predator  already_moving - False"""
-        for y in range(self.ocean.num_rows):
-            for x in range(self.ocean.num_cols):
+        for y in range(self.settings.num_rows):
+            for x in range(self.settings.num_cols):
                 if type(self.ocean.cells[y][x]) == type(self):
                     self.ocean.cells[y][x].already_moving = False
 
