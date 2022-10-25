@@ -1,6 +1,51 @@
 class UI:
 
     @staticmethod
+    def get_num_cols():
+        num_cols = int(input('Enter num_cols: '))
+        return num_cols
+
+    @staticmethod
+    def get_num_rows():
+        num_rows = int(input('Enter num_rows: '))
+        return num_rows
+
+    @staticmethod
+    def get_obstacles_number():
+        obstacles_number = int(input('Enter obstacles_number: '))
+        return obstacles_number
+
+    @staticmethod
+    def get_predators_number():
+        predators_number = int(input('Enter predators_number: '))
+        return predators_number
+
+    @staticmethod
+    def get_prey_number():
+        prey_number = int(input('Enter prey_number : '))
+        return prey_number
+
+    @staticmethod
+    def get_time_for_life_prey():
+        time_for_life_prey = int(input('Enter time_for_life_prey : '))
+        return time_for_life_prey
+
+    @staticmethod
+    def get_time_to_reproduce_for_predator():
+        time_to_reproduce_for_predator = int(input('Enter time_to_reproduce_for_predator: '))
+        return time_to_reproduce_for_predator
+
+    @staticmethod
+    def get_time_to_reproduce_for_prey():
+        time_to_reproduce_for_prey = int(input('Enter time_to_reproduce_for_prey: '))
+        return time_to_reproduce_for_prey
+
+    @staticmethod
+    def get_time_to_feed():
+        time_to_feed = int(input('Enter time_to_feed for predator: '))
+        return time_to_feed
+
+    @staticmethod
     def get_number_iteration():
         """Get number of iteration"""
 
