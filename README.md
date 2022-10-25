@@ -3,16 +3,15 @@ software system that provides interactive environmental simulation
 ***
 __Preys, predators, obstacles fill the ocean.__
 
-fishes (at each iteration move to a random nearest cell in ocean or don`t move)
-
+fishes (at each iteration move to a random nearest cell in ocean)
 predators (eat nearby prey or move)
-obstacles do nothing but are an obstacle for everyone
+obstacles do nothing 
 
-All fish have a life cycle (all fish have time to live and to breed)
-depending on the settings, the process proceeds differently
-the process ends when one of the species is extinct, or all iterations have completed
+All fish have a life cycle 
+Depending on the settings, the process proceeds differently
+The process end when one of the species is dying out, or all iterations have completed
 
-number of iterations and setting of input parameters in the module
+(number of iterations and setting of input parameters in the module settings.py)
 ***
 __process demonstration__ 
 ![image](screen/start_process.png)
