@@ -1,4 +1,6 @@
 from generator_x_y import GeneratorXY
+
+
 # from prey import Prey
 # from predator import Predator
 
@@ -27,18 +29,19 @@ class Cell:
             self.ocean.cells[new_y][new_x].x = new_x
             self.ocean.cells[new_y][new_x].y = new_y
 
-    def try_to_reproduce(self, fish, old_x, old_y):
-        """Reproduce yourself to the cell with coordinates old_x, old_y in the cells array"""
-        if fish.time_to_reproduce <= 0 and self.ocean.cells[old_y][old_x] is None:
-            if isinstance(fish, self.ocean.prey_):
-                self.ocean.cells[old_y][old_x] = self.ocean.prey_(self.ocean, self.settings, old_x, old_y)
-                self.settings.prey_number += 1
-                fish.time_to_reproduce = self.settings.time_to_reproduce_for_prey
-
-            elif isinstance(fish, self.ocean.predator_):
-                self.ocean.cells[old_y][old_x] = self.ocean.predator_(self.ocean, self.settings, old_x, old_y)
-                self.settings.predators_number += 1
-                fish.time_to_reproduce = self.settings.time_to_reproduce_for_predator
+    # def try_to_reproduce(self, fish, old_x, old_y):
+    #     """Reproduce yourself to the cell with coordinates old_x, old_y in the cells array"""
+    #     if fish.time_to_reproduce <= 0 and self.ocean.cells[old_y][old_x] is None:
+    #         if isinstance(fish, self.ocean.prey_):
+    #             self.ocean.cells[old_y][old_x] = self.ocean.prey_(self.ocean, self.settings, old_x, old_y)
+    #             ##self.ocean.prey_(self.ocean, self.settings, old_x, old_y)
+    #             self.settings.prey_number += 1
+    #             fish.time_to_reproduce = self.settings.time_to_reproduce_for_prey
+    #
+    #         elif isinstance(fish, self.ocean.predator_):
+    #             self.ocean.cells[old_y][old_x] = self.ocean.predator_(self.ocean, self.settings, old_x, old_y)
+    #             self.settings.predators_number += 1
+    #             fish.time_to_reproduce = self.settings.time_to_reproduce_for_predator
 
     def get_cell_at(self, a_coord):
         """Возвращает ячейку с координатами a_coord в массиве cells из ocean"""
@@ -63,5 +66,3 @@ class Cell:
     def display(self):
         """Выводит изображение по соответствующему смещению"""
         pass
-
-

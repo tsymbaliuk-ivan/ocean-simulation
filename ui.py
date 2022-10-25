@@ -28,8 +28,7 @@ class UI:
     @staticmethod
     def display_stats(ocean, iteration):
         return (print(f'preys = {ocean.settings.prey_number}, predators = {ocean.settings.predators_number}, '
-                f'obstacles = {ocean.settings.obstacles_number}'), print(f'iteration {iteration}'))
-
+                      f'obstacles = {ocean.settings.obstacles_number}'), print(f'iteration {iteration}'))
 
     @staticmethod
     def print_border(ocean):
@@ -39,6 +38,7 @@ class UI:
 
     @staticmethod
     def finish_simulation(ocean, iteration):
+        print()
         print(f'finished at iteration {iteration} -', end=' ')
 
         if ocean.settings.predators_number <= 0:

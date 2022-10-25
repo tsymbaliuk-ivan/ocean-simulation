@@ -1,6 +1,6 @@
 import random
 from cell import Cell
-from prey import Prey
+
 
 class Predator(Cell):
     """Subclass Cell, predator, can move, breed, eat prey"""
@@ -19,22 +19,11 @@ class Predator(Cell):
     def find_neighbor_preys_if_exist(self) -> list:
         """Find nearest preys if exist"""
         all_neighbors = self.ocean.find_neighbors(self)
-        preys = []
+        neighbor_preys = []
         for neighbor in all_neighbors:
-            if isinstance(neighbor, Prey):
-                preys.append(neighbor)
-
-        return preys
-
-    # def find_neighbor_preys_if_exist(self) -> list:
-    #     """Find nearest preys if exist"""
-    #     all_neighbors = [self.west(), self.north(), self.south(), self.east()]
-    #     preys = []
-    #     for neighbor in all_neighbors:
-    #         if isinstance(neighbor, Prey):
-    #             preys.append(neighbor)
-    #
-    #     return preys
+            if isinstance(neighbor, type(self.ocean.prey)):
+                neighbor_preys.append(neighbor)
+        return neighbor_preys
 
     def eat_nearest_prey(self, preys):
         """Eat nearest prey, random choice prey from preys list.
@@ -61,16 +50,17 @@ class Predator(Cell):
 
         if self.time_to_feed <= 0:
             self.ocean.cells[self.y][self.x] = None
-            self.ocean.predators_number -= 1
+            self.settings.predators_number -= 1
 
         elif self.already_moving is False:  # Predator еще не ел и не двигался
-            nearest_preys = self.find_neighbor_preys_if_exist()  # найти жертву, если такая есть
-            if nearest_preys:
-                self.eat_nearest_prey(nearest_preys)
+            neighbor_preys = self.find_neighbor_preys_if_exist()  # найти жертву, если такая есть
+            if neighbor_preys:
+                self.eat_nearest_prey(neighbor_preys)
                 self.settings.prey_number -= 1
             else:
                 super().make_a_move()  # жертв нет, только двигаться
-                super().try_to_reproduce(self, old_x, old_y)
+                self.ocean.try_to_reproduce_fish(self, old_x, old_y)
+                # super().try_to_reproduce(self, old_x, old_y)
                 # self.try_to_reproduce(old_x, old_y)  # если время пришло, пора размножатся, если получиться
             self.already_moving = True
 
@@ -80,13 +70,6 @@ class Predator(Cell):
             for x in range(self.settings.num_cols):
                 if type(self.ocean.cells[y][x]) == type(self):
                     self.ocean.cells[y][x].is_hungry = True
-
-    def set_already_moving(self):
-        """Set all predator  already_moving - False"""
-        for y in range(self.settings.num_rows):
-            for x in range(self.settings.num_cols):
-                if type(self.ocean.cells[y][x]) == type(self):
-                    self.ocean.cells[y][x].already_moving = False
 
     def east(self):
         """Returns the cell east of the given one, if any."""

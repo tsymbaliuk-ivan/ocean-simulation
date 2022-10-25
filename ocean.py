@@ -4,16 +4,13 @@ from predator import Predator
 from obstacle import Obstacle
 from ui import UI
 
+
 class Ocean:
     """Ocean is a 2D cell array. The ocean has prey, predators, obstacles and empty cell"""
     cells = []
 
     def __init__(self, settings):
         self.settings = settings
-        self.prey_ = Prey
-        self.predator_ = Predator
-        self.obstacle_ = Obstacle
-
         self.prey = Prey(self, self.settings, 0, 0)
         self.predator = Predator(self, self.settings, 0, 0)
         self.obstacle = Obstacle(self, self.settings, 0, 0)
@@ -32,9 +29,9 @@ class Ocean:
                        Predator: self.predator}
 
         for key, value in inhabitants.items():
-            self.__add_element(value, key)
+            self.__add_element(key, value)
 
-    def __add_element(self, ocean_element, ocean_elements_type):
+    def __add_element(self, ocean_elements_type, ocean_element):
         """Add inhabitant to ocean in free cells"""
         i = 0
         while i != ocean_element.number_of_element:
@@ -45,14 +42,6 @@ class Ocean:
             else:
                 continue
             i += 1
-
-    def display_screen(self):
-        """Print all cells"""
-        UI.print_border(self)
-        UI.show_cells(self)
-
-    def display_stats(self, i):
-        UI.display_stats(self, i)
 
     def find_neighbors(self, cell) -> list:
         """Find nearest neighbors if exist"""
@@ -79,6 +68,19 @@ class Ocean:
         if cell.x - 1 >= 0:
             return self.cells[cell.y][cell.x - 1]
 
+    def try_to_reproduce_fish(self, fish, old_x, old_y):
+        """Reproduce yourself to the cell with coordinates old_x, old_y in the cells array"""
+        if fish.time_to_reproduce <= 0 and self.cells[old_y][old_x] is None:
+            if isinstance(fish, Prey):
+                self.cells[old_y][old_x] = Prey(self, self.settings, old_x, old_y)
+                self.settings.prey_number += 1
+                fish.time_to_reproduce = self.settings.time_to_reproduce_for_prey
+
+            elif isinstance(fish, Predator):
+                self.cells[old_y][old_x] = Predator(self, self.settings, old_x, old_y)
+                self.settings.predators_number += 1
+                fish.time_to_reproduce = self.settings.time_to_reproduce_for_predator
+
     def __process(self):
         """Аor each cell, if is not None, and if is a predator or prey, and is not hungry (not eat in this iteration),
         execute the process,
@@ -90,7 +92,7 @@ class Ocean:
                         not self.cells[y][x].already_moving and self.cells[y][x].is_hungry:
                     self.cells[y][x].process()
         self.predator.set_predator_is_hungry()
-        self.predator.set_already_moving()
+        self.set_already_moving()
 
     def run(self):
         """Starts modeling"""
@@ -113,3 +115,18 @@ class Ocean:
 
         print(f'max_iteration = {max_iteration}')
         self.display_stats(max_iteration)
+
+    def display_screen(self):
+        """Print all cells"""
+        UI.print_border(self)
+        UI.show_cells(self)
+
+    def display_stats(self, i):
+        UI.display_stats(self, i)
+
+    def set_already_moving(self):
+        """Set all predator  already_moving - False"""
+        for y in range(self.settings.num_rows):
+            for x in range(self.settings.num_cols):
+                if isinstance(self.cells[y][x], type(self.prey)) or isinstance(self.cells[y][x], type(self.predator)):
+                    self.cells[y][x].already_moving = False

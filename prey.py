@@ -1,5 +1,6 @@
 from cell import Cell
 
+
 class Prey(Cell):
     """Subclass Cell, prey. Can move, breed and be eaten"""
 
@@ -28,9 +29,9 @@ class Prey(Cell):
         if self.time_to_feed <= 0:
             self.ocean.cells[self.y][self.x] = None
             self.settings.prey_number -= 1
-        super().try_to_reproduce(self, old_x, old_y)
+        self.ocean.try_to_reproduce_fish(self, old_x, old_y)
+        # super().try_to_reproduce(self, old_x, old_y)
         # self.try_to_reproduce(old_x, old_y)
-
 
     def move_from(self, from_coord, to_coord):
         """Перемещает из координаты from_coord, в координаты to_coord в массиве cells"""

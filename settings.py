@@ -3,7 +3,7 @@ class Settings:
 
     def __init__(self):
         """Initialize settings."""
-        self.number_iteration = 10
+        self.number_iteration = 60
 
         self.time_to_feed = 10
         self.time_to_reproduce_for_prey = 15
@@ -32,10 +32,8 @@ class Settings:
         # self.obstacles_number = 10
 
         self.image_for_cell = '⁓'
-        self.image_for_obstacle = '\033[32m🌿\033[0m' #'🕳'#'🌿'#'⛰'
+        self.image_for_obstacle = '\033[32m🌿\033[0m'  # '🕳'#'🌿'#'⛰'
         self.image_for_prey = '\033[34m🐟\033[0m'
         self.image_for_predator = '\033[31m🦈\033[0m'
-
-
 
         # number_iteration = UI.get_number_iteration()
