@@ -60,10 +60,3 @@ class Predator(Cell):
                 super().make_a_move()  # жертв нет, только двигаться
                 self.ocean.try_to_reproduce_fish(self, old_x, old_y)  # размножатся, если получиться
             self.moved = True
-
-    # def set_predator_is_hungry(self):
-    #     """Set all predator  is_hungry - True"""
-    #     for y in range(self.settings.num_rows):
-    #         for x in range(self.settings.num_cols):
-    #             if type(self.ocean.cells[y][x]) == type(self):
-    #                 self.ocean.cells[y][x].is_hungry = True

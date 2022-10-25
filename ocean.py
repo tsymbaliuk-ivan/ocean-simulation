@@ -101,6 +101,7 @@ class Ocean:
         self.display_screen()
         # self.display_stats(0)
         iteration = 0
+        self.display_stats(iteration)
         for i in range(number_iteration):
             self.__process()
             self.display_screen()

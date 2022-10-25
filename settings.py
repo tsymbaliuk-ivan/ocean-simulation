@@ -7,11 +7,11 @@ class Settings:
 
         self.time_to_feed = 10
         self.time_to_reproduce_for_prey = 15
-        self.time_to_reproduce_for_predator = 10
+        self.time_to_reproduce_for_predator = 8
         self.time_for_life_prey = 20
 
         self.prey_number = 50
-        self.predators_number = 3
+        self.predators_number = 10
         self.obstacles_number = 10
 
         self.num_rows = 10
