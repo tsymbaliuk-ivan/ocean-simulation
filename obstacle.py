@@ -9,7 +9,6 @@ class Obstacle(Cell):
         self.number_of_element = settings.obstacles_number
         self.x = x
         self.y = y
-        self.settings = settings
 
     def __repr__(self):
         return self.settings.image_for_obstacle

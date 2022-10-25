@@ -89,10 +89,9 @@ class Ocean:
         for y in range(self.settings.num_rows):
             for x in range(self.settings.num_cols):
                 if self.cells[y][x] is not None and type(self.cells[y][x]) is not Obstacle and \
-                        not self.cells[y][x].already_moving and self.cells[y][x].is_hungry:
+                        not self.cells[y][x].moved:
                     self.cells[y][x].process()
-        self.predator.set_predator_is_hungry()
-        self.set_already_moving()
+        self.set_moved_to_false()
 
     def run(self):
         """Starts modeling"""
@@ -101,20 +100,18 @@ class Ocean:
         self.__add_inhabitants()
         self.display_screen()
         # self.display_stats(0)
-        max_iteration = 0
+        iteration = 0
         for i in range(number_iteration):
             self.__process()
-            # self.display_screen()
-            # self.display_stats(i)
+            self.display_screen()
+            self.display_stats(i)
             if self.settings.prey_number == 0 or self.settings.predators_number == 0:
                 UI.finish_simulation(self, i)
                 break
-            max_iteration += 1
+            iteration += 1
 
         self.display_screen()
-
-        print(f'max_iteration = {max_iteration}')
-        self.display_stats(max_iteration)
+        self.display_stats(iteration)
 
     def display_screen(self):
         """Print all cells"""
@@ -124,9 +121,9 @@ class Ocean:
     def display_stats(self, i):
         UI.display_stats(self, i)
 
-    def set_already_moving(self):
+    def set_moved_to_false(self):
         """Set all predator  already_moving - False"""
         for y in range(self.settings.num_rows):
             for x in range(self.settings.num_cols):
                 if isinstance(self.cells[y][x], type(self.prey)) or isinstance(self.cells[y][x], type(self.predator)):
-                    self.cells[y][x].already_moving = False
+                    self.cells[y][x].moved = False

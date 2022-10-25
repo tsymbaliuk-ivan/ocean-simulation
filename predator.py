@@ -35,7 +35,6 @@ class Predator(Cell):
         self.y = prey.y
         self.ocean.cells[prey.y][prey.x] = self  # поместим predator на место той рыбки, которую скушали
         self.ocean.cells[old_y][old_x] = None  # освободим старое место
-        self.is_hungry = False  # мы поели, значит не голодны до конца дня
         self.time_to_feed += 1
 
     def process(self):
@@ -52,47 +51,19 @@ class Predator(Cell):
             self.ocean.cells[self.y][self.x] = None
             self.settings.predators_number -= 1
 
-        elif self.already_moving is False:  # Predator еще не ел и не двигался
+        elif self.moved is False:  # Predator еще не ел и не двигался
             neighbor_preys = self.find_neighbor_preys_if_exist()  # найти жертву, если такая есть
             if neighbor_preys:
                 self.eat_nearest_prey(neighbor_preys)
                 self.settings.prey_number -= 1
             else:
                 super().make_a_move()  # жертв нет, только двигаться
-                self.ocean.try_to_reproduce_fish(self, old_x, old_y)
-                # super().try_to_reproduce(self, old_x, old_y)
-                # self.try_to_reproduce(old_x, old_y)  # если время пришло, пора размножатся, если получиться
-            self.already_moving = True
+                self.ocean.try_to_reproduce_fish(self, old_x, old_y)  # размножатся, если получиться
+            self.moved = True
 
-    def set_predator_is_hungry(self):
-        """Set all predator  is_hungry - True"""
-        for y in range(self.settings.num_rows):
-            for x in range(self.settings.num_cols):
-                if type(self.ocean.cells[y][x]) == type(self):
-                    self.ocean.cells[y][x].is_hungry = True
-
-    def east(self):
-        """Returns the cell east of the given one, if any."""
-        if self.x + 1 < self.ocean.num_cols:
-            return self.ocean.cells[self.y][self.x + 1]
-
-    def north(self):
-        """Returns the cell north of the given"""
-        if self.y - 1 >= 0:
-            return self.ocean.cells[self.y - 1][self.x]
-
-    def south(self):
-        """Returns the cell south of the given"""
-        if self.y + 1 < self.ocean.num_rows:
-            return self.ocean.cells[self.y + 1][self.x]
-
-    def west(self):
-        """Returns the cell west of the given"""
-        if self.x - 1 >= 0:
-            return self.ocean.cells[self.y][self.x - 1]
-
-    # def try_to_reproduce(self, old_x, old_y):
-    #     """Reproduce yourself to the cell with coordinates old_x, old_y in the cells array"""
-    #     if self.time_to_reproduce <= 0 and self.ocean.cells[old_y][old_x] is None:
-    #         self.ocean.cells[old_y][old_x] = Predator(self.ocean, self.settings, old_x, old_y)
-    #         self.time_to_reproduce = self.settings.time_to_reproduce_for_predator
+    # def set_predator_is_hungry(self):
+    #     """Set all predator  is_hungry - True"""
+    #     for y in range(self.settings.num_rows):
+    #         for x in range(self.settings.num_cols):
+    #             if type(self.ocean.cells[y][x]) == type(self):
+    #                 self.ocean.cells[y][x].is_hungry = True

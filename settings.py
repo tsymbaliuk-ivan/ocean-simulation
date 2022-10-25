@@ -3,7 +3,7 @@ class Settings:
 
     def __init__(self):
         """Initialize settings."""
-        self.number_iteration = 60
+        self.number_iteration = 50
 
         self.time_to_feed = 10
         self.time_to_reproduce_for_prey = 15
