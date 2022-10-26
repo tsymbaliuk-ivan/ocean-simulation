@@ -2,6 +2,7 @@ from random import randint
 from prey import Prey
 from predator import Predator
 from obstacle import Obstacle
+from plankton import Plankton
 from ui import UI
 
 
@@ -14,6 +15,7 @@ class Ocean:
         self.prey = Prey(self, self.settings, 0, 0)
         self.predator = Predator(self, self.settings, 0, 0)
         self.obstacle = Obstacle(self, self.settings, 0, 0)
+        self.plankton = Plankton(self, self.settings, 0, 0)
         self.iteration = 0
 
     def __create_ocean(self):
@@ -27,7 +29,8 @@ class Ocean:
         """Add inhabitants of ocean: obstacles, prey, predator"""
         inhabitants = {Obstacle: self.obstacle,
                        Prey: self.prey,
-                       Predator: self.predator}
+                       Predator: self.predator,
+                       Plankton: self.plankton}
 
         for key, value in inhabitants.items():
             self.__add_element(key, value)
@@ -54,6 +57,7 @@ class Ocean:
         """Returns the cell south_west of the given one."""
         if cell.x - 1 >= 0 and cell.y + 1 < self.settings.num_rows:
             if self.cells[cell.y + 1][cell.x - 1] is None:
+                # coord = Coordinate(cell.x - 1, cell.y + 1)
                 x = cell.x - 1
                 y = cell.y + 1
                 return x, y
@@ -124,7 +128,7 @@ class Ocean:
 
     def try_to_reproduce_fish(self, fish, x, y):
         """Reproduce yourself to the cell with coordinates old_x, old_y in the cells array"""
-        if fish.time_to_reproduce <= 0 and self.cells[y][x] is None:
+        if fish.time_to_reproduce <= 0 and (self.cells[y][x] is None or type(self.cells[y][x]) == Plankton):
             if isinstance(fish, Prey):
                 self.cells[y][x] = Prey(self, self.settings, x, y)
                 self.settings.prey_number += 1
@@ -142,8 +146,8 @@ class Ocean:
 
         for y in range(self.settings.num_rows):
             for x in range(self.settings.num_cols):
-                if (type(self.cells[y][x]) is Prey or type(self.cells[y][x]) is Predator) and \
-                        not self.cells[y][x].moved:
+                if (type(self.cells[y][x]) is Prey or type(self.cells[y][x]) is Predator
+                        or type(self.cells[y][x]) is Plankton) and not self.cells[y][x].moved:
                     self.cells[y][x].process()
         self.set_moved_to_false()
 
@@ -157,8 +161,9 @@ class Ocean:
         self.__display_stats(self.iteration)
         for i in range(number_iteration):
             self.__process()
-            self.__display_screen()
-            self.__display_stats(i)
+            self.add_plankton()
+            # self.__display_screen()
+            # self.__display_stats(i)
             if self.settings.prey_number == 0 or self.settings.predators_number == 0:
                 UI.finish_simulation(self, i)
                 break
@@ -181,3 +186,16 @@ class Ocean:
             for x in range(self.settings.num_cols):
                 if isinstance(self.cells[y][x], type(self.prey)) or isinstance(self.cells[y][x], type(self.predator)):
                     self.cells[y][x].moved = False
+
+    def add_plankton(self):
+        """Add additional portion of plankton"""
+        num_additional_plankton = int((self.settings.num_rows + self.settings.num_cols))/10
+        i = 0
+        while i != num_additional_plankton:
+            x = randint(0, self.settings.num_cols - 1)
+            y = randint(0, self.settings.num_rows - 1)
+            if self.cells[y][x] is None:
+                self.cells[y][x] = Plankton(self, self.settings, x, y)
+            else:
+                continue
+            i += 1

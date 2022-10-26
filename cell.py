@@ -1,4 +1,3 @@
-from generator_x_y import GeneratorXY
 import random
 
 
@@ -41,12 +40,3 @@ class Cell:
             self.ocean.cells[new_y][new_x].y = new_y
             return True
         return False
-
-    # def make_a_move(self):
-    #     """Moves to cell using certain rules"""
-    #     new_x, new_y = GeneratorXY.generate_new_coord(self)
-    #     if self.ocean.cells[new_y][new_x] is None:
-    #         self.ocean.cells[self.y][self.x] = None
-    #         self.ocean.cells[new_y][new_x] = self
-    #         self.ocean.cells[new_y][new_x].x = new_x
-    #         self.ocean.cells[new_y][new_x].y = new_y
