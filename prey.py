@@ -26,18 +26,11 @@ class Prey(Cell):
         old_y = self.y
         super().make_a_move()
         self.moved = True
+        self.ocean.try_to_reproduce_fish(self, old_x, old_y)
         if self.time_to_feed <= 0:
             self.ocean.cells[self.y][self.x] = None
             self.settings.prey_number -= 1
-        self.ocean.try_to_reproduce_fish(self, old_x, old_y)
-
 
     def move_from(self, from_coord, to_coord):
         """Перемещает из координаты from_coord, в координаты to_coord в массиве cells"""
         pass
-
-    # def try_to_reproduce(self, old_x, old_y):
-    #     """Reproduce yourself to the cell with coordinates old_x, old_y in the cells array"""
-    #     if self.time_to_reproduce <= 0 and self.ocean.cells[old_y][old_x] is None:
-    #         self.ocean.cells[old_y][old_x] = Prey(self.ocean, self.settings, old_x, old_y)
-    #         self.time_to_reproduce = self.settings.time_to_reproduce_for_predator

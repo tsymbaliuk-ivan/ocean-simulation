@@ -17,16 +17,16 @@ class Settings:
         # self.num_rows = UI.get_num_rows()
         # self.num_cols = UI.get_num_cols()
 
-        self.number_iteration = 100
-        self.time_to_feed = 10
-        self.time_to_reproduce_for_prey = 12
-        self.time_to_reproduce_for_predator = 8
-        self.time_for_life_prey = 20
-        self.prey_number = 150
-        self.predators_number = 10
-        self.obstacles_number = 10
-        self.num_rows = 10
-        self.num_cols = 20
+        # self.number_iteration = 100
+        # self.time_to_feed = 10
+        # self.time_to_reproduce_for_prey = 6
+        # self.time_to_reproduce_for_predator = 10
+        # self.time_for_life_prey = 20
+        # self.prey_number = 100
+        # self.predators_number = 10
+        # self.obstacles_number = 10
+        # self.num_rows = 10
+        # self.num_cols = 20
 
         # self.num_rows = 25
         # self.num_cols = 75
@@ -39,7 +39,26 @@ class Settings:
         # self.predators_number = 10
         # self.obstacles_number = 10
 
+        self.number_iteration = 2
+        self.time_to_feed = 10
+        self.time_to_reproduce_for_prey = 6
+        self.time_to_reproduce_for_predator = 10
+        self.time_for_life_prey = 20
+        self.prey_number = 5
+        self.predators_number = 2
+        self.obstacles_number = 0
+        self.num_rows = 10
+        self.num_cols = 20
+
         self.image_for_cell = '⁓'
         self.image_for_obstacle = '\033[32m🌿\033[0m'  # '🕳'#'🌿'#'⛰'
         self.image_for_prey = '\033[34m🐟\033[0m'
         self.image_for_predator = '\033[31m🦈\033[0m'
+
+    def is_valid(self):
+        sum_of_element = self.prey_number + self.obstacles_number + self.predators_number
+        ocean_size = self.num_rows * self.num_cols
+        if sum_of_element < ocean_size:
+            return True
+        UI.size_error()
+        return False

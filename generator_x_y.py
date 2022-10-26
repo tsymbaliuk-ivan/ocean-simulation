@@ -5,10 +5,6 @@ from random import randrange
 class GeneratorXY:
     """Generator random x and y for our object"""
 
-    # def __init__(self, settings, cell):
-    #     self.settings = settings
-    #     self.cell = cell
-
     @staticmethod
     def generate_new_coord(cell):
 

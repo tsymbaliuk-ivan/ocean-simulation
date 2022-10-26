@@ -14,6 +14,7 @@ class Ocean:
         self.prey = Prey(self, self.settings, 0, 0)
         self.predator = Predator(self, self.settings, 0, 0)
         self.obstacle = Obstacle(self, self.settings, 0, 0)
+        self.iteration = 0
 
     def __create_ocean(self):
         """Fill ocean with cells"""
@@ -45,25 +46,46 @@ class Ocean:
 
     def find_neighbors(self, cell) -> list:
         """Find nearest neighbors if exist"""
-        all_neighbors = [self.west(cell), self.north(cell), self.south(cell), self.east(cell)]
+        all_neighbors = [self.__west(cell), self.__north(cell), self.__north_east(cell), self.__north_west(cell),
+                         self.__south(cell), self.__south_east(cell), self.__east(cell), self.__south_west(cell)]
         return all_neighbors
 
-    def east(self, cell):
+    def __south_west(self, cell):
+        """Returns the cell south_west of the given one."""
+        if cell.x - 1 >= 0 and cell.y + 1 < self.settings.num_rows:
+            return self.cells[cell.y + 1][cell.x - 1]
+
+    def __north_west(self, cell):
+        """Returns the cell north_west of the given one."""
+        if cell.x - 1 >= 0 and cell.y - 1 >= 0:
+            return self.cells[cell.y - 1][cell.x - 1]
+
+    def __north_east(self, cell):
+        """Returns the cell north_east of the given one."""
+        if cell.x + 1 < self.settings.num_cols and cell.y - 1 >= 0:
+            return self.cells[cell.y - 1][cell.x + 1]
+
+    def __south_east(self, cell):
+        """Returns the cell south_east of the given one."""
+        if cell.x + 1 < self.settings.num_cols and cell.y + 1 < self.settings.num_rows:
+            return self.cells[cell.y + 1][cell.x + 1]
+
+    def __east(self, cell):
         """Returns the cell east of the given one, if any."""
         if cell.x + 1 < self.settings.num_cols:
             return self.cells[cell.y][cell.x + 1]
 
-    def north(self, cell):
+    def __north(self, cell):
         """Returns the cell north of the given"""
         if cell.y - 1 >= 0:
             return self.cells[cell.y - 1][cell.x]
 
-    def south(self, cell):
+    def __south(self, cell):
         """Returns the cell south of the given"""
         if cell.y + 1 < self.settings.num_rows:
             return self.cells[cell.y + 1][cell.x]
 
-    def west(self, cell):
+    def __west(self, cell):
         """Returns the cell west of the given"""
         if cell.x - 1 >= 0:
             return self.cells[cell.y][cell.x - 1]
@@ -98,28 +120,27 @@ class Ocean:
         number_iteration = self.settings.number_iteration
         self.__create_ocean()
         self.__add_inhabitants()
-        self.display_screen()
+        self.__display_screen()
         # self.display_stats(0)
-        iteration = 0
-        self.display_stats(iteration)
+        self.__display_stats(self.iteration)
         for i in range(number_iteration):
             self.__process()
-            self.display_screen()
-            self.display_stats(i)
+            self.__display_screen()
+            self.__display_stats(i)
             if self.settings.prey_number == 0 or self.settings.predators_number == 0:
                 UI.finish_simulation(self, i)
                 break
-            iteration += 1
+            self.iteration += 1
 
-        self.display_screen()
-        self.display_stats(iteration)
+        self.__display_screen()
+        self.__display_stats(self.iteration)
 
-    def display_screen(self):
+    def __display_screen(self):
         """Print all cells"""
         UI.print_border(self)
         UI.show_cells(self)
 
-    def display_stats(self, i):
+    def __display_stats(self, i):
         UI.display_stats(self, i)
 
     def set_moved_to_false(self):

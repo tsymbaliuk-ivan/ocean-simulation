@@ -1,4 +1,5 @@
 from generator_x_y import GeneratorXY
+import random
 
 
 class Cell:
@@ -23,3 +24,14 @@ class Cell:
             self.ocean.cells[new_y][new_x] = self
             self.ocean.cells[new_y][new_x].x = new_x
             self.ocean.cells[new_y][new_x].y = new_y
+
+    def find_neighbor_empty_cell(self, cell):
+        neighbor_cells = self.ocean.find_neighbors(cell)
+        print(neighbor_cells)
+        none_neighbor_cells = []
+        for neighbor in neighbor_cells:
+            if isinstance(neighbor, type(None)):
+                none_neighbor_cells.append(neighbor)
+
+        empty_cell = random.choice(none_neighbor_cells)
+        return empty_cell
