@@ -57,8 +57,6 @@ class Predator(Cell):
                 self.eat_nearest_prey(neighbor_preys)
                 self.settings.prey_number -= 1
             else:
-                print(super().find_neighbor_empty_cell(self))
-                super().make_a_move()  # жертв нет, только двигаться
+                super().move_to_neighbor_empty_cell(self)
                 self.ocean.try_to_reproduce_fish(self, old_x, old_y)  # размножатся, если получиться
             self.moved = True
-

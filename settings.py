@@ -17,16 +17,16 @@ class Settings:
         # self.num_rows = UI.get_num_rows()
         # self.num_cols = UI.get_num_cols()
 
-        # self.number_iteration = 100
-        # self.time_to_feed = 10
-        # self.time_to_reproduce_for_prey = 6
-        # self.time_to_reproduce_for_predator = 10
-        # self.time_for_life_prey = 20
-        # self.prey_number = 100
-        # self.predators_number = 10
-        # self.obstacles_number = 10
-        # self.num_rows = 10
-        # self.num_cols = 20
+        self.number_iteration = 100
+        self.time_to_feed = 10
+        self.time_to_reproduce_for_prey = 6
+        self.time_to_reproduce_for_predator = 10
+        self.time_for_life_prey = 20
+        self.prey_number = 100
+        self.predators_number = 10
+        self.obstacles_number = 10
+        self.num_rows = 10
+        self.num_cols = 20
 
         # self.num_rows = 25
         # self.num_cols = 75
@@ -39,16 +39,16 @@ class Settings:
         # self.predators_number = 10
         # self.obstacles_number = 10
 
-        self.number_iteration = 2
-        self.time_to_feed = 10
-        self.time_to_reproduce_for_prey = 6
-        self.time_to_reproduce_for_predator = 10
-        self.time_for_life_prey = 20
-        self.prey_number = 5
-        self.predators_number = 2
-        self.obstacles_number = 0
-        self.num_rows = 10
-        self.num_cols = 20
+        # self.number_iteration = 15
+        # self.time_to_feed = 5
+        # self.time_to_reproduce_for_prey = 2
+        # self.time_to_reproduce_for_predator = 5
+        # self.time_for_life_prey = 20
+        # self.prey_number = 5
+        # self.predators_number = 2
+        # self.obstacles_number = 0
+        # self.num_rows = 5
+        # self.num_cols = 8
 
         self.image_for_cell = '⁓'
         self.image_for_obstacle = '\033[32m🌿\033[0m'  # '🕳'#'🌿'#'⛰'

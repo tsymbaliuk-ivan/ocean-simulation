@@ -16,22 +16,37 @@ class Cell:
         """Return None"""
         return
 
-    def make_a_move(self):
-        """Moves to cell using certain rules"""
-        new_x, new_y = GeneratorXY.generate_new_coord(self)
-        if self.ocean.cells[new_y][new_x] is None:
+    def find_neighbor_empty_cell(self, cell) -> tuple:
+        neighbor_cells_list = self.ocean.find_neighbors(cell)
+        none_neighbor_cells = []
+        for neighbor in neighbor_cells_list:
+            if isinstance(neighbor, tuple):
+                none_neighbor_cells.append(neighbor)
+
+        if len(none_neighbor_cells) > 1:
+            empty_cell = random.choice(none_neighbor_cells)
+            return empty_cell
+
+        elif none_neighbor_cells:
+            return none_neighbor_cells[0][0], none_neighbor_cells[0][1]
+
+    def move_to_neighbor_empty_cell(self, cell):
+        empty_cell = self.find_neighbor_empty_cell(cell)
+        if empty_cell:
+            new_x = empty_cell[0]
+            new_y = empty_cell[1]
             self.ocean.cells[self.y][self.x] = None
             self.ocean.cells[new_y][new_x] = self
             self.ocean.cells[new_y][new_x].x = new_x
             self.ocean.cells[new_y][new_x].y = new_y
+            return True
+        return False
 
-    def find_neighbor_empty_cell(self, cell):
-        neighbor_cells = self.ocean.find_neighbors(cell)
-        print(neighbor_cells)
-        none_neighbor_cells = []
-        for neighbor in neighbor_cells:
-            if isinstance(neighbor, type(None)):
-                none_neighbor_cells.append(neighbor)
-
-        empty_cell = random.choice(none_neighbor_cells)
-        return empty_cell
+    # def make_a_move(self):
+    #     """Moves to cell using certain rules"""
+    #     new_x, new_y = GeneratorXY.generate_new_coord(self)
+    #     if self.ocean.cells[new_y][new_x] is None:
+    #         self.ocean.cells[self.y][self.x] = None
+    #         self.ocean.cells[new_y][new_x] = self
+    #         self.ocean.cells[new_y][new_x].x = new_x
+    #         self.ocean.cells[new_y][new_x].y = new_y

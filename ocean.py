@@ -53,53 +53,85 @@ class Ocean:
     def __south_west(self, cell):
         """Returns the cell south_west of the given one."""
         if cell.x - 1 >= 0 and cell.y + 1 < self.settings.num_rows:
+            if self.cells[cell.y + 1][cell.x - 1] is None:
+                x = cell.x - 1
+                y = cell.y + 1
+                return x, y
             return self.cells[cell.y + 1][cell.x - 1]
 
     def __north_west(self, cell):
         """Returns the cell north_west of the given one."""
         if cell.x - 1 >= 0 and cell.y - 1 >= 0:
+            if self.cells[cell.y - 1][cell.x - 1] is None:
+                x = cell.x - 1
+                y = cell.y - 1
+                return x, y
             return self.cells[cell.y - 1][cell.x - 1]
 
     def __north_east(self, cell):
         """Returns the cell north_east of the given one."""
         if cell.x + 1 < self.settings.num_cols and cell.y - 1 >= 0:
+            if self.cells[cell.y - 1][cell.x + 1] is None:
+                x = cell.x + 1
+                y = cell.y - 1
+                return x, y
             return self.cells[cell.y - 1][cell.x + 1]
 
     def __south_east(self, cell):
         """Returns the cell south_east of the given one."""
         if cell.x + 1 < self.settings.num_cols and cell.y + 1 < self.settings.num_rows:
+            if self.cells[cell.y + 1][cell.x + 1] is None:
+                x = cell.x + 1
+                y = cell.y + 1
+                return x, y
             return self.cells[cell.y + 1][cell.x + 1]
 
     def __east(self, cell):
         """Returns the cell east of the given one, if any."""
         if cell.x + 1 < self.settings.num_cols:
+            if self.cells[cell.y][cell.x + 1] is None:
+                x = cell.x + 1
+                y = cell.y
+                return x, y
             return self.cells[cell.y][cell.x + 1]
 
     def __north(self, cell):
         """Returns the cell north of the given"""
         if cell.y - 1 >= 0:
+            if self.cells[cell.y - 1][cell.x] is None:
+                x = cell.x
+                y = cell.y - 1
+                return x, y
             return self.cells[cell.y - 1][cell.x]
 
     def __south(self, cell):
         """Returns the cell south of the given"""
         if cell.y + 1 < self.settings.num_rows:
+            if self.cells[cell.y + 1][cell.x] is None:
+                x = cell.x
+                y = cell.y + 1
+                return x, y
             return self.cells[cell.y + 1][cell.x]
 
     def __west(self, cell):
         """Returns the cell west of the given"""
         if cell.x - 1 >= 0:
+            if self.cells[cell.y][cell.x - 1] is None:
+                x = cell.x - 1
+                y = cell.y
+                return x, y
             return self.cells[cell.y][cell.x - 1]
 
-    def try_to_reproduce_fish(self, fish, old_x, old_y):
+    def try_to_reproduce_fish(self, fish, x, y):
         """Reproduce yourself to the cell with coordinates old_x, old_y in the cells array"""
-        if fish.time_to_reproduce <= 0 and self.cells[old_y][old_x] is None:
+        if fish.time_to_reproduce <= 0 and self.cells[y][x] is None:
             if isinstance(fish, Prey):
-                self.cells[old_y][old_x] = Prey(self, self.settings, old_x, old_y)
+                self.cells[y][x] = Prey(self, self.settings, x, y)
                 self.settings.prey_number += 1
                 fish.time_to_reproduce = self.settings.time_to_reproduce_for_prey
 
             elif isinstance(fish, Predator):
-                self.cells[old_y][old_x] = Predator(self, self.settings, old_x, old_y)
+                self.cells[y][x] = Predator(self, self.settings, x, y)
                 self.settings.predators_number += 1
                 fish.time_to_reproduce = self.settings.time_to_reproduce_for_predator
 
@@ -110,7 +142,7 @@ class Ocean:
 
         for y in range(self.settings.num_rows):
             for x in range(self.settings.num_cols):
-                if self.cells[y][x] is not None and type(self.cells[y][x]) is not Obstacle and \
+                if (type(self.cells[y][x]) is Prey or type(self.cells[y][x]) is Predator) and \
                         not self.cells[y][x].moved:
                     self.cells[y][x].process()
         self.set_moved_to_false()

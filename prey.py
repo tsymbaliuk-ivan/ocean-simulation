@@ -24,9 +24,9 @@ class Prey(Cell):
         self.time_to_feed -= 1
         old_x = self.x
         old_y = self.y
-        super().make_a_move()
-        self.moved = True
-        self.ocean.try_to_reproduce_fish(self, old_x, old_y)
+        if super().move_to_neighbor_empty_cell(self):
+            self.moved = True
+            self.ocean.try_to_reproduce_fish(self, old_x, old_y)
         if self.time_to_feed <= 0:
             self.ocean.cells[self.y][self.x] = None
             self.settings.prey_number -= 1
