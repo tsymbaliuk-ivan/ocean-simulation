@@ -1,9 +1,10 @@
 # _Ocean_ `🌊`
 ## software system that provides interactive environmental simulation
 ***
-__Preys `🐟`, predators `🦈` , obstacles `🌿` fill the ocean.__
+__Preys `🐟`, predators `🦈` , obstacles `⛰` and plankton `🌿` fill the ocean.__
 
-#### Preys (`🐟`) at each iteration random move in ocean.
+#### Preys (`🐟`) at each iteration random move in ocean or eat plankton.
+#### Plankton (`🌿`) reproduce yourself  
 
 #### Predators (`🦈`) eat nearby prey or move
 
