@@ -29,13 +29,10 @@ class Plankton(Cell):
             empty_cell = super().find_neighbor_empty_cell(self)
             self.reproduce_to_neighbor_empty_cell(empty_cell)
 
-
     def reproduce_to_neighbor_empty_cell(self, empty_cell):
-
         if empty_cell:
             new_x = empty_cell[0]
             new_y = empty_cell[1]
-            # self.ocean.cells[self.y][self.x] = None
             self.ocean.cells[new_y][new_x] = self
             self.ocean.cells[new_y][new_x].x = new_x
             self.ocean.cells[new_y][new_x].y = new_y

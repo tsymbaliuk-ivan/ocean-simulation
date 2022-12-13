@@ -16,22 +16,6 @@ class Prey(Cell):
         """Return image_for_prey"""
         return self.settings.image_for_prey
 
-    # def process(self):
-    #     """Decrements time_to_feed, time_to_reproduce.
-    #     Moves to an empty cell. Checks time to feed, (if = 0 - death).
-    #     Try to reproduce itself"""
-    #
-    #     self.time_to_reproduce -= 1
-    #     self.time_to_feed -= 1
-    #     old_x = self.x
-    #     old_y = self.y
-    #     if super().move_to_neighbor_empty_cell(self):
-    #         self.moved = True
-    #         self.ocean.try_to_reproduce_fish(self, old_x, old_y)
-    #     if self.time_to_feed <= 0:
-    #         self.ocean.cells[self.y][self.x] = None
-    #         self.settings.prey_number -= 1
-
     def find_neighbor_plankton_if_exist(self) -> list:
         """Find nearest plankton if exist"""
         all_neighbors = self.ocean.find_neighbors(self)
@@ -64,7 +48,7 @@ class Prey(Cell):
         old_x = self.x
         old_y = self.y
 
-        if self.time_for_life_prey <= 0 or self.time_to_feed <=0:
+        if self.time_for_life_prey <= 0 or self.time_to_feed <=0 :
             self.ocean.cells[self.y][self.x] = None
             self.settings.prey_number -= 1
 

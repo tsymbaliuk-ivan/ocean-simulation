@@ -139,6 +139,11 @@ class Ocean:
                 self.settings.predators_number += 1
                 fish.time_to_reproduce = self.settings.time_to_reproduce_for_predator
 
+            elif isinstance(fish, Plankton):
+                self.cells[y][x] = Plankton(self, self.settings, x, y)
+                self.settings.plankton_number += 1
+                fish.time_to_reproduce = self.settings.time_to_reproduce_for_plankton
+
     def __process(self):
         """Аor each cell, if is not None, and if is a predator or prey, and is not hungry (not eat in this iteration),
         execute the process,
@@ -157,13 +162,12 @@ class Ocean:
         self.__create_ocean()
         self.__add_inhabitants()
         self.__display_screen()
-        # self.display_stats(0)
         self.__display_stats(self.iteration)
         for i in range(number_iteration):
             self.__process()
             self.add_plankton()
-            # self.__display_screen()
-            # self.__display_stats(i)
+            self.__display_screen()
+            self.__display_stats(i)
             if self.settings.prey_number == 0 or self.settings.predators_number == 0:
                 UI.finish_simulation(self, i)
                 break

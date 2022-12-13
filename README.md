@@ -22,8 +22,8 @@ __process demonstration__
 
 __with another settings__
 
-![image](screen/start_preys_50_prdator_10.png)
+![image](screen/iteration_0.png)
 
-![image](screen/finish_all_prey_dead.png)
+![image](screen/finished_at_iteration_239.png)
 
 

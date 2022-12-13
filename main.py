@@ -1,7 +1,7 @@
 from settings import Settings
 from ocean import Ocean
 
-ocean_settings = Settings()
-if ocean_settings.is_valid():
+if __name__ == '__main__':
+    ocean_settings = Settings()
     ocean = Ocean(ocean_settings)
     ocean.run()
