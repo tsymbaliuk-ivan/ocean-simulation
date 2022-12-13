@@ -8,7 +8,7 @@ __Preys `🐟`, predators `🦈` , obstacles `⛰` and plankton `🌿` fill the 
 
 #### Predators (`🦈`) eat nearby prey or move
 
-#### All fish have a life cycle (all fish have time to live and to breed)
+#### All fish have a life cycle (all fish have time to live and time to eat)
 #### depending on the settings, the process proceeds differently
 #### the process ends when one of the species is extinct, or all iterations have completed
 #### number of iterations and setting of input parameters in the module settings.py
