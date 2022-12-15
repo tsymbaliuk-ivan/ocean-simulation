@@ -4,7 +4,7 @@
 __Preys `🐟`, predators `🦈` , obstacles `⛰` and plankton `🌿` fill the ocean.__
 
 #### Preys (`🐟`) at each iteration random move in ocean or eat plankton.
-#### Plankton (`🌿`) reproduce yourself  
+#### Plankton (`🌿`) can reproduce themself 
 
 #### Predators (`🦈`) eat nearby prey or move
 
