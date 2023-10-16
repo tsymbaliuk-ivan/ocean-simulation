@@ -1,4 +1,5 @@
-# _Ocean_ `🌊`
+# _Ocean_ `🌊` (Based on the book by R. Weiner and L. Pinson ‘C++ from within’ (1996))
+
 ## software system that provides interactive environmental simulation
 ***
 __Preys `🐟`, predators `🦈` , obstacles `⛰` and plankton `🌿` fill the ocean.__
